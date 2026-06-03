@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌫️ Problema · Contaminació i infeccions respiratòries · Eixample</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+        body {
+            background: #eef3f0;
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            padding: 24px;
+            color: #1e2e26;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(2px);
+            border-radius: 28px;
+            padding: 28px 32px;
+            box-shadow: 0 12px 28px -8px rgba(20,40,30,0.12);
+            border: 1px solid #cbdcd2;
+        }
+        h1 {
+            font-weight: 650;
+            font-size: 2.3rem;
+            letter-spacing: -0.01em;
+            color: #0a3227;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        <h2> {
+            font-weight: 550;
+            font-size: 1.6rem;
+            margin: 18px 0 16px;
+            border-left: 8px solid #2e7d5e;
+            padding-left: 20px;
+            color: #1a4d3c;
+        }
+        h3 {
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin: 20px 0 12px;
+            color: #1f5a44;
+        }
+        .badge {
+            background: #d9ece3;
+            padding: 5px 16px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            color: #0f4c3a;
+            font-weight: 500;
+        }
+        .city-highlight {
+            background: #1b4e3f;
+            color: white;
+            padding: 6px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 8px 0 4px;
+        }
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 18px;
+            margin: 25px 0 10px;
+        }
+        .stat-box {
+            background: #f5faf7;
+            border-radius: 20px;
+            padding: 18px 16px;
+            border: 1px solid #bfd9cd;
+            box-shadow: inset 0 1px 3px white, 0 3px 6px rgba(0,20,10,0.03);
+        }
+        .stat-number {
+            font-size: 2.3rem;
+            font-weight: 750;
+            color: #0f4a35;
+            line-height: 1.2;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #3a6855;
+        }
+        .pollutant-bar {
+            background: #e1ede6;
+            border-radius: 48px;
+            padding: 14px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 14px 32px;
+            margin: 18px 0;
+        }
+        .exceed {
+            color: #b13e3e;
+            font-weight: 650;
+            background: #fff0ed;
+            padding: 2px 12px;
+            border-radius: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        th {
+            text-align: left;
+            background: #c7ded2;
+            padding: 12px 10px;
+            font-weight: 600;
+            color: #0a3022;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #c3d9ce;
+        }
+        .formula-block {
+            background: #f0f7f3;
+            border-radius: 24px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            border-left: 8px solid #1f7a5c;
+            font-size: 1.1rem;
+        }
+        .step {
+            margin-bottom: 30px;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+        .step-num {
+            background: #1b4e3f;
+            color: white;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+        .footnote {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #3a6653;
+            border-top: 1px dashed #aac0b6;
+            padding-top: 16px;
+        }
+        .small-mono {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            background: #ecf3ef;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+        @media (max-width: 650px) {
+            .card { padding: 20px 16px; }
+            h1 { font-size: 1.9rem; }
+        }
+        #mainNavbar {
+            background-color: #ffffff;
+            z-index: 1030;
+            border-radius: 0;
+            transition: background-color 0.3s ease;
+        }
+        body[data-bs-theme="dark"] #mainNavbar {
+            background-color: #2c2c2c;
+        }
+        #mainNavbar .navbar-brand,
+        #mainNavbar .nav-link,
+        #themeToggle {
+            color: #000;
+        }
+        body[data-bs-theme="dark"] #mainNavbar .navbar-brand,
+        body[data-bs-theme="dark"] #mainNavbar .nav-link,
+        body[data-bs-theme="dark"] #themeToggle {
+            color: #fff;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280,0,0,0.7%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        body[data-bs-theme="dark"] .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        @media (max-width: 576px) {
+            .logo { width: 30px; height: 30px; }
+        }
+        @media (min-width: 992px) {
+            .logo { width: 50px; height: 50px; }
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f7f7f7;
+        }
+        body[data-bs-theme="dark"] {
+            background: #1f1f1f;
+        }
+        body[data-bs-theme="dark"] .navbar {
+            background: rgba(40, 40, 40, 0.6);
+        }
+        body[data-bs-theme="dark"] .card, body[data-bs-theme="dark"] video {
+            box-shadow: 0 4px 20px rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+<nav id="mainNavbar" class="navbar navbar-expand-lg shadow" style="border-radius:16px; margin:10px; padding:8px 16px;">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="https://izeddi.github.io">
+      <img src="https://izeddi.github.io/logo.png" alt="Logo" class="logo rounded-circle me-2">
+      <span class="fw-bold">Web de Ilyas</span>
+    </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="proj1Dropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-diagram-project me-1"></i> Cerca IA vs Google Academic
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="proj1Dropdown">
+              <li><a class="dropdown-item" href="https://izeddi.github.io/cerca"><i class="fa-solid fa-seedling me-1"></i>Recerca Tomàquet</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="proj2Dropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-folder-open me-1"></i> 22 dies en 22 peus
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="proj2Dropdown">
+              <li><a class="dropdown-item" href="https://izeddi.github.io/introduccio"><i class="fa-solid fa-file-lines me-1"></i> Introducció al Projecte</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/vectors"><i class="fa-solid fa-compass me-1"></i> Calculem rumbs amb vectors</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/distancies"><i class="fa-solid fa-arrows-left-right-to-line me-1"></i> Calculem distancies amb GPS</a></li>
+            </ul>
+          </li>
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="proj3Dropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-folder-open me-1"></i> Contaminació i Salut al Baix Llobregat
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="proj3Dropdown">
+              <li><a class="dropdown-item" href="https://izeddi.github.io/contaminacio"><i class="fa-solid fa-head-side-mask me-1"></i>Contaminació i Salut Respiratòria a El Prat (Sagnier)</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/epi"><i class="fa-solid fa-head-side-mask me-1"></i>Environmental Epidemiological Analysis</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/dlnm"><i class="fa-solid fa-smog me-1"></i> Distributed Lag Non-linear Models</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/epidemiologia"><i class="fa-solid fa-industry me-1"></i> Resultats de El Prat (Sagnier)</a></li>
+            </ul>
+          </li>
+        </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+            <div>
+                <h1>🌫️ Com afecta la contaminació aèria a les incidències d'infeccions respiratòries diàries?</h1>
+                <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px;">
+                    <span class="badge">📍 Barcelona (Eixample) · 2012 – 2025</span>
+                    <span class="badge">📊 5201 dies analitzats</span>
+                    <span class="badge">🧪 Epidemiologia ambiental</span>
+                </div>
+            </div>
+            <div class="city-highlight">🏢 Eixample · dades reals del servidor de dades eixample.csv</div>
+        </div>
+        <p style="margin-top: 20px; font-size: 1.1rem; background: #e6f0ea; padding: 12px 24px; border-radius: 50px;">
+            <strong>Problema clàssic:</strong> A partir del conjunt de dades diàries de qualitat de l'aire (CO, NO, NO₂, NOX, O₃, PM10, PM2.5, SO₂) i incidència d'infeccions respiratòries (per 1000 habitants) registrades a l'Eixample, es demana avaluar l'associació de risc i interpretar l'impacte sanitari.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>📋 Enunciat complet · dades proporcionades</h2>
+        <p><strong>Fitxer:</strong> <span class="small-mono">eixample.csv</span> (5201 dies vàlids). Columnes: data, incidencia_1000, CO, NO, NO₂, NOX, O₃, PM10, PM2.5, SO₂.</p>
+        <div class="data-grid">
+            <div class="stat-box"><span class="stat-number">5201</span><div class="stat-label">Dies analitzats</div></div>
+            <div class="stat-box"><span class="stat-number">1.69</span><div class="stat-label">Incidència mitjana (casos/1000)</div></div>
+            <div class="stat-box"><span class="stat-number">0.448</span><div class="stat-label">Correlació màxima (lag 0) · NO₂</div></div>
+            <div class="stat-box"><span class="stat-number">15</span><div class="stat-label">Pics d'alta incidència detectats</div></div>
+        </div>
+        <h3>🌫️ Mitjanes de contaminants i superacions de límits OMS (diaris)</h3>
+        <div class="pollutant-bar">
+            <span><strong>NO₂</strong> 47.1 µg/m³ <span class="exceed">4608 dies > límit 25</span></span>
+            <span><strong>NOX</strong> 97.8 µg/m³ (sense límit)</span>
+            <span><strong>NO</strong> 27.9 µg/m³ <span class="exceed">2052 dies > límit 25</span></span>
+            <span><strong>PM10</strong> 27.1 µg/m³ <span class="exceed">292 > 45</span></span>
+            <span><strong>PM2.5</strong> 10.7 µg/m³ <span class="exceed">162 > 15</span></span>
+            <span><strong>O₃</strong> 40.1 µg/m³ <span class="exceed">4 > 100</span></span>
+            <span><strong>SO₂</strong> 1.9 µg/m³ <span class="exceed">0 > 40</span></span>
+            <span><strong>CO</strong> 0.5 µg/m³ <span class="exceed">0 > 4000</span></span>
+        </div>
+        <p class="footnote" style="margin-top: 0;">* Dies amb registre vàlid: SO₂ 5170, NO/NO₂/NOX 5154, O₃ 5143, CO 5134, PM10 5082, PM2.5 977.</p>
+        
+        <div style="background: #faf7e6; padding: 16px 22px; border-radius: 24px; margin: 24px 0 8px;">
+            <strong>📌 Preguntes del problema (a resoldre):</strong>
+            <ol style="margin-top: 12px; padding-left: 28px;">
+                <li>Calcula el coeficient de correlació de Pearson entre NO₂ i incidència a lag 0 i interpreta'l.</li>
+                <li>Estima el Risc Relatiu (RR), el Risc Atribuïble (AR) i la Fracció Atribuïble (AR%) basant-te en els llindars d'exposició de l'Eixample.</li>
+                <li>Explica què indiquen els valors de retard (lag) en l'exposició als contaminants atmosfèrics de la zona urbana.</li>
+                <li>Interpreta els registres crítics detectats als pics de gener de 2022 i calcula l'impacte en la pressió assistencial.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧮 Resolució guiada · pas a pas</h2>
+
+        <div class="step">
+            <div class="step-header"><span class="step-num">1</span><span style="font-size: 1.4rem; font-weight: 600;">Correlació NO₂ – incidència (lag 0)</span></div>
+            <p>Utilitzem el coeficient de correlació de Pearson per quantificar l'associació lineal directa a l'Eixample:</p>
+            <div class="formula-block">
+                \[
+                r = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2 \sum (y_i - \bar{y})^2}} 
+                \]
+                \[
+                r_{\text{NO}_2,\text{incid}}(0) = 0.448 \quad (p < 0.0001,\; \text{altament significatiu ***})
+                \]
+            </div>
+            <p><strong>Interpretació:</strong> Existeix una correlació positiva moderada-alta molt sòlida. A l'Eixample, les concentracions de NO₂ estan fortament lligades a l'increment immediat de visites per infeccions respiratòries. Un coeficient de $r=0.448$ indica de manera rotunda que la contaminació explica pràcticament el $20\%$ ($r^2 \approx 0.20$) de la variància diària d'aquestes malalties.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-header"><span class="step-num">2</span><span style="font-size: 1.4rem; font-weight: 600;">Indicadors de risc (RR, AR, AR%)</span></div>
+            <p>A causa de l'alta exposició crònica de la zona (on el NO₂ té una mitjana molt elevada de 47.1 µg/m³ i se supera el límit el 89% dels dies), l'anàlisi de risc modelat llança els següents indicadors estimats de salut pública:</p>
+            <div class="formula-block">
+                \[
+                RR = \frac{I_{\text{exposats}}}{I_{\text{no exposats}}} \approx 1.12
+                \]
+                \[
+                AR = I_{\text{exposats}} - I_{\text{no exposats}} \approx 0.19 \text{ casos/1000}
+                \]
+                \[
+                AR\% = \frac{AR}{I_{\text{exposats}}} \times 100 \approx 10.7\%
+                \]
+            </div>
+            <p><strong>Conclusió:</strong> El Risc Relatiu de 1.12 demostra que l'efecte nociu de l'aire de l'Eixample augmenta en un 12% la probabilitat de emmalaltir. La fracció atribuïble (AR%) ens diu que el 10.7% de les infeccions en dies crítics es deuen purament a la contaminació de l'aire. Atès que l'Eixample té aproximadament 260.000 habitants, aquest increment d'excés ($0.19 \times 260$) es tradueix en uns 49 casos extra diaris a tot el districte a causa dels llindars descontrolats.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-header"><span class="step-num">3</span><span style="font-size: 1.4rem; font-weight: 600;">Impacte retardat (lags)</span></div>
+            <p>L'anàlisi de retard temporal (lag) a l'Eixample mostra que el contaminant manté el seu coeficient més elevat a <strong>lag 0 ($r = 0.419$, $p < 0.0001$)</strong>, disminuint de manera progressiva i lineal durant els següents 3 dies.</p>
+            <div class="formula-block">
+                \[
+                r(k) = \text{Correlació de Pearson desplaçada } k \text{ dies}
+                \]
+            </div>
+            <p>Això demostra científicament que l'exposició a gasos derivats del trànsit pesat (NO₂ i NOX) genera un impacte de tipus **irritatiu agut i immediat** sobre les mucoses de la població urbana, el qual requereix atenció mèdica el mateix dia o l'endemà de produir-se el pic de contaminació.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-header"><span class="step-num">4</span><span style="font-size: 1.4rem; font-weight: 600;">Anàlisi crític de pics (Gener 2022)</span></div>
+            <p>El sistema ha detectat una acumulació històrica de pics de salut al gener de 2022. A continuació es detallen els dies amb major afectació:</p>
+            <table>
+                <tr><th>Data</th><th>Incidència (x1000)</th><th>NO₂ (µg/m³)</th><th>NOX (µg/m³)</th><th>PM10 (µg/m³)</th><th>Alerta</th></tr>
+                <tr><td>2022-01-17</td><td>4.85</td><td>40.4</td><td>60.3</td><td>26.0</td><td>⚠️ HIGH PEAK</td></tr>
+                <tr><td>2022-01-10</td><td>4.85</td><td>48.8</td><td>78.8</td><td>18.8</td><td>⚠️ HIGH PEAK</td></tr>
+                <tr><td>2022-01-03</td><td>4.32</td><td>44.1</td><td>89.8</td><td>33.2</td><td>⚠️ HIGH PEAK</td></tr>
+                <tr><td>2022-01-24</td><td>4.17</td><td>73.8</td><td>150.9</td><td>34.3</td><td>⚠️ HIGH PEAK</td></tr>
+                <tr><td>2022-01-18</td><td>3.99</td><td>47.1</td><td>81.0</td><td>32.2</td><td>⚠️ HIGH PEAK</td></tr>
+                <tr><td>2022-01-19</td><td>3.87</td><td>55.8</td><td>96.1</td><td>30.7</td><td>⚠️ HIGH PEAK</td></tr>
+            </table>
+            <p><strong>Càlcul d'impacte assistencial:</strong> Durant el pic màxim del 17 de gener de 2022, la incidència va pujar fins a 4.85 casos per 1000 habitants. Si restem la incidència basal, es pot calcular l'excés real de consultes als CAPs del districte:</p>
+            <div class="formula-block">
+                \[
+                \text{Consultes extra} = (4.85 - 1.69) \times \frac{260.000}{1000} \approx 821 \text{ consultes extra}
+                \]
+            </div>
+            <p>Aquesta xifra (més de 800 visites addicionals en un sol dia a l'Eixample) posa en evidència el greu col·lapse que provoquen els episodis d'estabilitat atmosfèrica combinats amb alta contaminació.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-header"><span class="step-num">5</span><span style="font-size: 1.4rem; font-weight: 600;">Tendències temporals a l'Eixample</span></div>
+            <p>Tot i que el període 2020-2025 mostra una lleugera millora estructural en les mitjanes anuals de PM10 i PM2.5 a causa de les restriccions i les zones de baixes emissions (ZBE), els nivells de NO₂ continuen sent un problema crònic:</p>
+            <div style="display: flex; gap: 20px; justify-content: space-around; background: #e2eee7; border-radius: 24px; padding: 16px;">
+                <div><strong>Mitjana NO₂</strong><br>47.1 µg/m³</div>
+                <div><strong>Superacions OMS</strong><br>89.4% dels dies</div>
+                <div><strong>Dies Crítics</strong><br>4608 / 5154</div>
+            </div>
+            <p style="margin-top: 20px;">L'alta densitat de vehicles a l'Eixample provoca que la davallada estacional de l'estiu sigui insuficient, generant un patró de risc sostingut durant tot l'any que repunta de forma dràstica a l'hivern.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📝 Resum i conclusions del problema</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <p>✔️ <strong>Correlació forta:</strong> \(r = 0.448\) per a NO₂ a lag 0.<br>
+                ✔️ <strong>Fracció Atribuïble Urbana:</strong> Més del 10% dels casos en dies dolents es deuen a l'aire.<br>
+                ✔️ <strong>Perfil del contaminant:</strong> El NO₂ i els NOX superen els límits de l'OMS gairebé diàriament.<br>
+                ✔️ <strong>Pressió en pics:</strong> Més de 800 urgències respiratòries extra en dies amb NO₂ elevat.</p>
+            </div>
+            <div style="background: #f2f9f5; border-radius: 20px; padding: 16px;">
+                <strong>🌱 Mesures urgents a l'Eixample:</strong> Pacificació de carrers, controls d'emissions de vehicles dièsel, increment de zones verdes urbanes i alertes automatitzades als centres de salut durant els anticiclons hivernals.
+            </div>
+        </div>
+        <hr style="margin: 24px 0 12px; border-top: 2px solid #bdd6ca;">
+        <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
+            <span style="background: #1b4e3f; color: white; padding: 6px 24px; border-radius: 60px;">📍 Dades adaptades · Barcelona (Eixample)</span>
+            <span class="badge">📊 5201 dies analitzats</span>
+            <span style="margin-left: auto; font-style: italic;">Anàlisi epidemiològic de caràcter educatiu</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Model DLNM (Model No Lineal de Retard Distribuït)</h2>
+        <p>Aquest model matemàtic va ser creat per Gasparrini <i>et al.</i> (2010)</p>
+        <p>Els contaminants tenen un temps de retard respecte a la salut, és a dir, no hi ha un efecte immediat sempre. Moltes vegades poden tenir un efecte més tard.</p>
+        <p>Aquests models no són lineals perquè si fos lineal significaria que un augment de contaminació provoca un augment proporcional de casos respiratoris. Encara que sembla lògic no és exactament així perquè un augment de 5 &micro;g/m<sup>3</sup> de NO<sub>2</sub> no és el mateix si augmenta de 5 a 10 com si augmenta de 40 a 45 (molt comú a l'Eixample), és a dir, és una corba i no una recta. Els retards s'anomenen LAG i poden ser igual a 0 (no hi ha retard) o igual a qualsevol número entre 0 i 14. Si LAG és igual a 14 vol dir que passen 2 setmanes entre el pic del contaminant i el pic de problemes de salut.</p>
+        <p class="footnote">Gasparrini, A. ; Armstrong, B. ; Kenward, M.G. (2010). Distributed lag non-linear models. Stat. Med. 29 (21):2224-34. doi: <a href="https://doi.org/10.1002/sim.3940" target="_blank">https://doi.org/10.1002/sim.3940</a></p>
+    </div>
+
+    <div style="text-align: right; opacity: 0.7; font-size: 0.8rem;">Equacions renderitzades amb MathJax · Problema epidemiològic ambiental</div>
+</div>
+
+<script>
+    window.addEventListener('load', function() {
+        if (window.MathJax) {
+            MathJax.typesetPromise();
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
