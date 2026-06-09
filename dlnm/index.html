@@ -1,15 +1,185 @@
 
-<!DOCTYPE html>
+
 <html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web de Wilfredo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DLNM Explorer – Scientific WebR Tool</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --text: #0f172a;
+      --muted: #64748b;
+      --primary: #7dd3fc;
+      --primary-700: #0284c7;
+      --border: #e2e8f0;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --warning: #ca8a04;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #fff;
+      padding: 3rem 0 2.25rem;
+      border-radius: 0 0 2rem 2rem;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .lead { color: #cbd5e1; }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+      margin-bottom: 1.25rem;
+      background: var(--surface);
+    }
+
+    .card-header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-body { padding: 1.25rem; }
+
+    .btn-primary {
+      background: var(--primary);
+      border: none;
+      border-radius: 0.9rem;
+      font-weight: 700;
+      padding: 0.8rem 1.4rem;
+      box-shadow: 0 8px 18px rgba(14, 165, 233, 0.24);
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--primary-700); }
+    .btn-primary:disabled { background: #94a3b8; box-shadow: none; }
+
+    .form-select, .form-control {
+      border-radius: 0.9rem;
+      border: 1px solid #cbd5e1;
+      padding: 0.75rem 1rem;
+    }
+    .form-select:focus, .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 .2rem rgba(14,165,233,.18);
+    }
+
+    .panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1rem;
+    }
+
+    .muted { color: var(--muted); }
+
+    .multiselect-box {
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+      background: var(--surface-2);
+      padding: .25rem;
+      min-height: 175px;
+    }
+    .multiselect-box select {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      min-height: 165px;
+    }
+
+    #errorProtocol,
+    #errorBox,
+    #warningBox,
+    #dataInfoBox {
+      display: none;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    #errorProtocol { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    #errorBox { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    #warningBox { background: #fffbeb; color: #854d0e; border: 1px solid #fde68a; }
+    #dataInfoBox { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; }
+
+    .nav-tabs { border-bottom: 2px solid var(--border); }
+    .nav-tabs .nav-link {
+      border: none;
+      color: var(--muted);
+      font-weight: 700;
+      padding: 1rem 1.2rem;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+    .nav-tabs .nav-link:hover { color: var(--text); }
+    .nav-tabs .nav-link.active {
+      color: var(--primary);
+      background: transparent;
+      border-bottom-color: var(--primary);
+    }
+
+    .plot-shell {
+      background: var(--surface-2);
+      border-radius: 1rem;
+      border: 1px dashed #cbd5e1;
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .plot-shell img {
+      max-width: 100%;
+      border-radius: 0.8rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+    }
+
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 1rem;
+      padding: 1rem;
+      overflow: auto;
+      max-height: 520px;
+      white-space: pre-wrap;
+      margin: 0;
+      font-size: .86rem;
+    }
+
+    .small-note { font-size: .9rem; color: var(--muted); }
+    .spinner-border { width: 1.1rem; height: 1.1rem; border-width: 0.18em; }
+    .code-inline {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      border-radius: .5rem;
+      padding: .08rem .4rem;
+      font-size: .85em;
+    }
+    <style>
     body {
       font-family: 'Poppins', sans-serif;
       background: #f7f7f7;
@@ -48,7 +218,7 @@
     /* Contenedores para mejorar diseño */
     .content-box {
       background: white;
-      padding: 20px;
+      padding: 25px;
       border-radius: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
@@ -62,26 +232,13 @@
       text-align: center;
       margin: 20px 0;
     }
-
-    /* Vídeos */
-    .video-wrap video {
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      display: block;
-      border-radius: 12px;
-    }
+¡
 /* Navbar fija arriba */
 #mainNavbar {
   background-color: #ffffff; /* fondo sólido */
   z-index: 1030;             /* más alto que el contenido */
   border-radius: 0;       
   transition: background-color 0.3s ease;
-}
-
-/* Navbar oscuro */
-body[data-bs-theme="dark"] #mainNavbar {
-  background-color: #2c2c2c;
 }
 
 
@@ -106,16 +263,14 @@ body[data-bs-theme="dark"] #themeToggle {
 body[data-bs-theme="dark"] .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
-
   </style>
 </head>
-<body data-bs-theme="light">
-  <!-- Navbar -->
-<nav id="mainNavbar" class="navbar navbar-expand-lg shadow" style="border-radius:16px; margin:10px; padding:8px 16px;">
+<body>
+  <nav id="mainNavbar" class="navbar navbar-expand-lg shadow" style="border-radius:16px; margin:10px; padding:8px 16px;">
   <div class="container-fluid">
     <!-- Logo y texto -->
     <a class="navbar-brand d-flex align-items-center" href="https://wospina5.github.io">
-      <img src="https://wospina5.github.io/logo.png" alt="Logo" class="logo rounded-circle me-2">
+      <img src="https://izeddi.github.io/logo.png" alt="Logo" class="logo rounded-circle me-2">
       <span class="fw-bold">Web de Wilfredo</span>
     </a>
 
@@ -144,7 +299,7 @@ body[data-bs-theme="dark"] .navbar-toggler-icon {
           </li>
          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="proj3Dropdown" role="button" data-bs-toggle="dropdown">
-              <i class="fa-solid fa-folder-open me-1"></i> Contaminació i Salut al Baix Llobregat
+              <i class="fa-solid fa-folder-open me-1"></i> Contaminació i Salut a L'Eixample
             </a>
             <ul class="dropdown-menu" aria-labelledby="proj3Dropdown">
               <li><a class="dropdown-item" href="https://wospina5.github.io/contaminacio"><i class="fa-solid fa-head-side-mask me-1"></i>Contaminació i Salut Respiratòria a L'Eixample</a></li>
@@ -154,406 +309,740 @@ body[data-bs-theme="dark"] .navbar-toggler-icon {
             </ul>
           </li>
         </ul>
-    <button id="themeToggle" class="ms-2 btn">
-          <i class="fa-solid fa-moon"></i>
       </div>
     </div>
   </nav>
-  <!-- Contenido -->
-<div class="container content-box">
-<div align="center">
-  <h1 class="display-5 fw-bold mb-4">Air Pollution, Meteorological Conditions and Respiratory Infections in Eixample. A 14-Year Spatiotemporal Analysis</h1>
-   </p>  
-   </div>
+  <header class="hero text-center">
+    <div class="container">
+      <h1 class="display-5 fw-bold mb-3"><i class="fa-solid fa-chart-line text-info me-2"></i>DLNM Explorer</h1>
+      <p class="lead mb-4">Scientific WebR Interface for Distributed Lag Non-linear Models</p>
+      <button class="btn btn-outline-info btn-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#howItWorksModal">
+        <i class="fa-solid fa-book-open me-2"></i>Methodology & Documentation
+      </button>
+    </div>
+  </header>
 
-  <p>The objectives of this research are:</p>
-  <ul>
-    <li> Wilfredo Ospina im studying all data from L'Eixample a city located in Barcelona. In this county we are using data from <a href="https://mediambient.gencat.cat/es/05_ambits_dactuacio/atmosfera/qualitat_de_laire/avaluacio/xarxa_de_vigilancia_i_previsio_de_la_contaminacio_atmosferica_xvpca/">Air Pollution Prevention and Monitoring Network (XPVCA in catalan)</a> corresponding to hourly data of air pollutants from year 2011 to 2025. Data included: Benzene (C<sub>6</sub>H<sub>6</sub>), Nitrogen Oxide (NO), Nitrogen Dioxide (NO<sub>2</sub>), Nitrogen Oxides (NO<sub>X</sub>) Ozone (O<sub>3</sub>), Sulphur Dioxide (SO<sub>2</sub>) and Carbon Monoxide (CO) </li>
-    <p></p>
-    <li> Meteorological data is available from <a href="https://www.meteo.cat/observacions/xema"> MeteoCat (Meteorological data Server of Catalonia)</a>, so we choose the same meteorological station in L'Eixample. The data structure is based on semi-hourly data that is, data every 30 minutes from 2011. Data included: temperature, relative humidity, pressure, wind direction, wind speed, solar irradiance.</li></ul>
-    <p></p>
-    <ul><li> Respiratory Infection data are collected from Catalonia Information System for Infection Surveillance <a href="https://sivic.salut.gencat.cat">(SIVIC)</a> using data from region 75, that is Barcelona Metropolitan South Region, and 182 is the identificator of the Primary care center from El Prat (Sagnier).
-      <p></p>
-<div align="center" data-aos="fade-up">
-<h1>Calendar Plot</h1>
-   </p>  
-  <img class="img-fluid rounded shadow-sm my-3" src="calendarplotno2.png">
-  <p>The Calendar Plot provides a daily record of air quality throughout the year 2025. Each square represents a specific day, and the color indicates the concentration of NO<sub>2</sub></p>
-   <h2>How to read the colors</h2>
-<ul><li>Yellow/Light Tones: These represent clean air. These days are usually windy or rainy, which helps clear the sky.</li>
+  <main class="container pb-5">
+    <div id="errorProtocol" class="fw-semibold text-center">
+      <i class="fa-solid fa-triangle-exclamation fs-4 d-block mb-2"></i>
+      Has obert el fitxer amb <span class="code-inline">file://</span>. WebR necessita un servidor local (per exemple, Live Server).
+    </div>
 
-<li>Orange/Red Tones: these represent higher pollution. The darker the red, the more pollutants were in the air. On these days, people with breathing difficulties might feel more tired or uncomfortable.</li></ul>
-     <p></p>   
-   <h2>The Winter Trap</h2> 
-   <ul><li>Took at January and February. You will see many dark orange and red squares. In winter, the ground is cold, and a layer of heavy air sits on top of the city.</li>
-   <p></p>
-    <h2>The Summer Break</h2> 
-   <li>Look at August. Most of the squares are light yellow. This is because many people leave the city for vacation, so there are fewer cars. Also, the summer heat creates currents that push pollution high up into the sky and away from us.</li>
-  <p></p>
-  <h2>The Weekend</h2> 
-    <li> If you look closely at the rows, most of the weekends are often lighter than the weekdays. This shows that when schools and offices are closed, the air improves almost immediately.</li></ul>
-  <p></p> </div>
-   <div align="center" data-aos="fade-up">
+<section class="card">
+  <div class="card-header"><i class="fa-solid fa-file-csv text-primary me-2"></i>1. Upload Dataset (.csv)</div>
+  <div class="card-body">
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Ciutats</label>
+        <select id="demoDataset" class="form-select form-select-lg">
+          <option value="">-- Selecciona una Ciutat --</option>
+                                <option value="https://wospina5.github.io/epi/eixample.csv">🏢 Eixample</option>
+                                <option value="https://wospina5.github.io/epi/Elprat(sagnier).csv">🏢 El Prat de Llobregat (Sagnier)</option>
+                                <option value="https://wospina5.github.io/epi/Gava.csv">🏙️ Gavà </option>
+                                <option value="https://wospina5.github.io/epi/Elprat(jardinsdelapau).csv">🏢 El Prat de Llobregat (Jardins de la Pau)</option>
+                                <option value="https://wospina5.github.io/epi/Hospitaletdellobregat.csv">🏙️ L'Hospitalet de Llobregat</option>
+                                <option value="https://wospina5.github.io/epi/Martorell.csv">🏢 Martorell</option>
+                                <option value="https://wospina5.github.io/epi/Santandreudelabarca.csv">🏙️ Sant Andreu de la Barca</option>
+                                <option value="https://wospina5.github.io/epi/Santvicencdelshorts.csv">🏢 Sant Vicenç dels Horts</option>
+                                <option value="https://wospina5.github.io/epi/Viladecans.csv">🏙️ Viladecans</option>
+                                <option value="https://wospina5.github.io/epi/palleja.csv">🏢 Pallejà</option>
+        </select>
+      </div>
+      <div class="col-md-5">
+        <label class="form-label fw-semibold">O puja el teu fitxer CSV</label>
+        <input type="file" id="csvFile" class="form-control form-control-lg" accept=".csv,text/csv" />
+      </div>
+      <div class="col-md-3 d-flex align-items-end">
+        <div id="fileStatus" class="w-100 d-flex align-items-center fw-semibold bg-primary bg-opacity-10 text-primary rounded-3 p-2">
+          <span class="spinner-border spinner-border-sm me-2"></span>
+          Initializing WebR...
+        </div>
+      </div>
+    </div>
+    <div id="colInfo" class="mt-3 small-note"></div>
+  </div>
+</section>
 
-<h1>TimeVariation</h1>
-   </p>  
-  <img class="img-fluid rounded shadow-sm my-3" src="timevariation.png">
-  <p>Air pollution is not constant, it rises and falls based on our daily routines. The first chart shows that the air follows a "work schedule."</p>
-  <P></P>
-<h2>Rush Hour Peaks</h2>
-<p>There are two times during the day when harmful gases (like NO<sub>X</sub>, which comes from vehicle exhausts) reach their highest levels</p>
-  <ul><li>8:00 AM: When people drive to work or drop children off at school.</li>
-  <li>8:00 PM: When people return home.</li>
-  <p>hese blue peaks on the chart represent the "fingerprint" left by our morning and evening commutes.</p>
-  <p></p>
-  <h2>Monthly Pattern</h2>
+    <section class="card">
+      <div class="card-header"><i class="fa-solid fa-sliders me-2"></i>2. Model Specification</div>
+      <div class="card-body">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Outcome Variable (Y)</label>
+            <select id="outcomeVar" class="form-select bg-light" disabled>
+              <option>-- Upload data first --</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Exposure Variable (X)</label>
+            <select id="exposureVar" class="form-select bg-light" disabled>
+              <option>-- Upload data first --</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Maximum Lag Window</label>
+            <select id="maxLag" class="form-select">
+              <option value="7">7 days</option>
+              <option value="14" selected>14 days (Standard)</option>
+              <option value="21">21 days</option>
+              <option value="28">28 days</option>
+            </select>
+          </div>
 
-<p>The Winter Rise: The blue and green lines (traffic gases) are much higher in January and December. During these months, the air is cold and still, which prevents pollution from blowing away.</p>
- <p>The Summer Rise: The purple line (Ozone) is highest in July and August. The more sun and heat there is, the more Ozone is produced in the atmosphere.</p>
-  <p></p>
-<h2>The Sun and Ozone (O<sub>3</sub>)</h2>
-<p>Ozone is a unique pollutant. It does not come directly out of a car. Instead, it is created when sunlight hits other pollutants already in the air. This is why the purple line on the chart rises at midday when the sun is strongest and drops at night.</p>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Confounding Variables</label>
+            <div class="multiselect-box">
+              <select id="confounders" class="form-select" multiple size="8" disabled></select>
+            </div>
+            <div class="small-note mt-1">Tria només confusors reals. El model netja automàticament variables constants i el mateix <code>Y</code>/<code>X</code>.</div>
+          </div>
 
-  <p></p>
-  <h2>The Weekend Break</h2> 
-<p>If you compare different days of the week, Sunday is the cleanest day. Because there are fewer delivery trucks and fewer people commuting, the air gets a chance to clear up. This is usually the best time for outdoor activities.</p>
-  <p></p>
-</div>
-     <div align="center" data-aos="fade-up">
- 
-<h1>TrendLevel</h1>
-   </p>  
-  <img class="img-fluid rounded shadow-sm my-3" src="trendlevelno2.png">
-  <p>Trendlevel is a very large table that shows the history of Nitrogen Dioxide (NO<sub>2</sub>) every single day from 2011 until 2025. This is the best way to see if our city is actually getting cleaner over time.
-</p>
-  <P></P>
-<h2>How to Read the "Heat"</h2>
-<ul><li>
-Vertical Axis: This shows the hours of the day (0 to 24).</li>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Advanced Controls</label>
+            <div class="panel">
+              <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="includeTime" checked>
+                <label class="form-check-label fw-medium" for="includeTime">Include temporal control (natural splines)</label>
+              </div>
+              <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="antiOverfit" checked>
+                <label class="form-check-label fw-medium" for="antiOverfit">Anti-overfitting mode (df=2 lag space)</label>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="autoCleanConfounders" checked>
+                <label class="form-check-label fw-medium" for="autoCleanConfounders">Auto-clean confounders (remove constants and duplicates)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<li>Horizontal Axis: This shows the months (January to December).</li>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 my-4 p-4 bg-white rounded-4 shadow-sm border">
+      <button id="runBtn" class="btn btn-primary btn-lg px-5" disabled>
+        <i class="fa-solid fa-play-circle me-2"></i>Compute DLNM
+      </button>
+      <div id="loadingMsg" class="text-primary fw-semibold d-none">
+        <div class="d-flex align-items-center">
+          <span class="spinner-border me-3"></span>
+          <span>Calculating the model...</span>
+        </div>
+      </div>
+    </div>
 
-<li>Colors: Dark red and orange mean "High Pollution." Blue and green mean "Clean Ai.
-</li>
-<p></p>
-<h2>The Improvement</h2>
-<li>A Cleaner Decade: Look at the top rows (2011–2014). You will see large blocks of dark orange and red, especially during the morning and evening hours. This was a period of high pollution.
-</li>
-<li>The Shift to Blue: Look at the bottom rows (2023–2025). The red areas are much smaller and lighter. There is a lot more blue and green across the whole year. This visual change proves that new technology, electric vehicles, and environmental rules in El Prat are working.</li>
-<p></p>
-<h2>The Constant Problem</h2>
-<li>Even in the most recent years, you can still see yellow and orange stripes at the top and bottom of the daily cycle (8:00 AM and 8:00 PM). This reminds us that while the air is better, the "rush hour" traffic is still the biggest challenge we face.</li> 
-<p></p>
-<h2>The White Squares</h2>
-<li>You may notice some completely white squares in the graphic. These are not zero pollution days. Instead, they represent moments when the measuring station stopped working. Like any machine, sensors can fail due to power cuts, maintenance, or extreme weather, leaving a gap in the data.
-</li>
-</ul>
-<p></p>
-     </div>
-     <div align="center" data-aos="fade-up">
-    <h1>Daily Averages</h1>
-   </p>  
-  <img class="img-fluid rounded shadow-sm my-3" src="mitjanesdiaries.png">
-  <p>This graphic shows the daily averages of the main air pollutants. Each colored line represents a different substance measured in micrograms per cubic meter.
-</p>
-  <P></P>
-<h2>Pollutants</h2>
-<ul><li>
-The purple line (NO<sub>x</sub> - Nitrogen Oxides): Is the line with the most movement and the one that reaches the highest peaks. These gases come mainly from car exhausts and industrial activity.
-<li> The brown line (O<sub>3</sub> - Ozone): It rises in summer and falls in winter. Unlike others, ozone does not come directly from an exhaust, it is formed when other pollutants are exposed to the sun. That's why it always rises when it's hotter. </li>
-<li>The lower lines (SO<sub>2</sub>, CO, C<sub>6</sub>H<sub>6</sub>): substances like carbon monoxide or benzene are very close to zero. This are good news, as it indicates that certain types of industrial and old fuel pollution are under control.</li>
-<p></p>
+    <div id="errorBox" class="shadow-sm">
+      <h5 class="fw-bold mb-2"><i class="fa-solid fa-circle-xmark me-2"></i>Execution Error</h5>
+      <div id="errorMsgText"></div>
+    </div>
 
-<h1>Overcomings</h1>
-<li>El Prat (Sagnier): Has never exceeded 200 micrograms per cubic meter.</li>
+    <div id="warningBox" class="shadow-sm">
+      <i class="fa-solid fa-triangle-exclamation me-2"></i><strong>Model Adjustment:</strong>
+      <span id="warningText"></span>
+    </div>
 
-<li>According to European regulations, this level can only be exceeded 18 times.</li>
+    <section id="resultsSection" class="card shadow-sm" style="opacity:.65; transition: opacity .25s ease;">
+      <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+        <h4 class="mb-3"><i class="fa-solid fa-chart-column text-primary me-2"></i>3. Epidemiological Results</h4>
+        <ul class="nav nav-tabs" id="resultTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#plot3dPanel" type="button" role="tab">3D Surface</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#plotPanel" type="button" role="tab">Cumulative Effect</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#lagPanel" type="button" role="tab">Extremes Lag</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#summary" type="button" role="tab">Statistics</button>
+          </li>
+        </ul>
+      </div>
 
-<li>At El Prat (Sagnier), the level has been between 125 and 200 micrograms per cubic meter only 6 times.</li>
+      <div class="card-body bg-white rounded-bottom-4 pt-4">
+        <div id="dataInfoBox" class="mb-3">
+          <h6 class="fw-bold mb-2"><i class="fa-solid fa-circle-info me-1"></i>Execution Summary:</h6>
+          <div id="dataInfoText"></div>
+        </div>
 
-<li>Does it comply with the law?
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="plot3dPanel" role="tabpanel">
+            <div class="plot-shell">
+              <img id="plot3dImg" alt="3D plot" style="display:none;">
+              <p class="muted mt-3 mb-0 fw-medium" id="plot3dCaption">
+                <i class="fa-solid fa-cube fa-3x text-secondary d-block mb-3"></i>
+                The 3D response surface will appear here.
+              </p>
+            </div>
+          </div>
 
-European law states that in one year the maximum number of times that 200 micrograms per cubic meter of nitrogen dioxide (NO<sub>2</sub>) can be exceeded is 18.
-We have observed that it has never reached 200 micrograms per cubic meter, but it has been between 125 and 200 micrograms per cubic meter only 6 times in 14 years.</li>
+          <div class="tab-pane fade" id="plotPanel" role="tabpanel">
+            <div class="plot-shell">
+              <img id="lagPlotImg" alt="Cumulative effect plot" style="display:none;">
+              <p class="muted mt-3 mb-0 fw-medium" id="plotCaption">No plot generated yet.</p>
+            </div>
+          </div>
 
-<li>In 2025, it recorded 0 hours.
-In 2012, it exceeded the limit 5 times.</li>
+          <div class="tab-pane fade" id="lagPanel" role="tabpanel">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <div class="plot-shell h-100">
+                  <h6 class="text-primary fw-bold mb-3"><i class="fa-solid fa-snowflake me-1"></i>Cold Extreme Curve</h6>
+                  <img id="plotColdImg" alt="Cold extreme lag plot" style="display:none;">
+                  <p class="muted small mt-3 mb-0" id="coldCaption"></p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="plot-shell h-100">
+                  <h6 class="text-danger fw-bold mb-3"><i class="fa-solid fa-fire me-1"></i>Heat Extreme Curve</h6>
+                  <img id="plotHeatImg" alt="Heat extreme lag plot" style="display:none;">
+                  <p class="muted small mt-3 mb-0" id="heatCaption"></p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<li>The pollutant CO has not exceeded the annual limit in any of the 15 years analyzed (0% of the period).</li>
+          <div class="tab-pane fade" id="summary" role="tabpanel">
+            <pre id="modelSummary">⏳ Waiting for model execution...</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-<li>Total days exceeding the limit: 0</li>
+  <div class="modal fade" id="howItWorksModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header text-white" style="background:#0f172a;">
+          <h5 class="modal-title"><i class="fa-solid fa-microscope text-info me-2"></i>Scientific Methodology (DLNM)</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <h6 class="fw-bold text-primary">What is a Distributed Lag Non-linear Model (DLNM)?</h6>
+          <p>DLNM is a statistical framework used to study delayed and non-linear effects of an exposure on a health outcome.</p>
+          <h6 class="fw-bold text-primary mt-4">What this tool does</h6>
+          <ul class="lh-lg mb-0">
+            <li>Detects a reasonable family based on the outcome type.</li>
+            <li>Removes constant / invalid confounders automatically.</li>
+            <li>Generates a 3D response surface plus cumulative and lag-specific plots.</li>
+            <li>Uses a conservative lag spline by default to reduce overfitting.</li>
+          </ul>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<li>Total hours exceeding the limit: 0</li>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    if (window.location.protocol === 'file:') {
+      document.getElementById('errorProtocol').style.display = 'block';
+      throw new Error('Open the project through a local server, not by double-clicking the HTML file.');
+    }
 
-<li>The pollutant NO<sub>2</sub> has not exceeded the annual limit in any of the 15 years analyzed (0% of the period).</li>
+    import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
 
-<li>Total days exceeding the limit: 0</li>
 
-<li>Total hours exceeding the limit: 0</li>
+   
+    const els = {
+      demoDataset: document.getElementById('demoDataset'), // <-- Nova línia
+      fileInput: document.getElementById('csvFile'),
+      outcome: document.getElementById('outcomeVar'),
+      exposure: document.getElementById('exposureVar'),
+      confounders: document.getElementById('confounders'),
+      maxLag: document.getElementById('maxLag'),
+      includeTime: document.getElementById('includeTime'),
+      antiOverfit: document.getElementById('antiOverfit'),
+      autoClean: document.getElementById('autoCleanConfounders'),
+      runBtn: document.getElementById('runBtn'),
+      loadingMsg: document.getElementById('loadingMsg'),
+      errorBox: document.getElementById('errorBox'),
+      errorMsgText: document.getElementById('errorMsgText'),
+      warningBox: document.getElementById('warningBox'),
+      warningText: document.getElementById('warningText'),
+      dataInfoBox: document.getElementById('dataInfoBox'),
+      dataInfoText: document.getElementById('dataInfoText'),
+      modelSummary: document.getElementById('modelSummary'),
+      resultsSection: document.getElementById('resultsSection'),
+      fileStatus: document.getElementById('fileStatus'),
+      colInfo: document.getElementById('colInfo'),
+      plot3dImg: document.getElementById('plot3dImg'),
+      lagPlotImg: document.getElementById('lagPlotImg'),
+      plotColdImg: document.getElementById('plotColdImg'),
+      plotHeatImg: document.getElementById('plotHeatImg'),
+      plot3dCaption: document.getElementById('plot3dCaption'),
+      plotCaption: document.getElementById('plotCaption'),
+      coldCaption: document.getElementById('coldCaption'),
+      heatCaption: document.getElementById('heatCaption')
+    };
 
-<li>The pollutant O<sub>3</sub> has not exceeded the annual limit in any of the 15 years analyzed (0% of the period).</li>
+    let webR = null;
+    let ready = false;
+    let lastData = { cols: [], rows: 0 };
 
-<li>Total days exceeding the limit: 0</li>
+    function showError(message) {
+      els.errorMsgText.innerHTML = message;
+      els.errorBox.style.display = 'block';
+      els.loadingMsg.classList.add('d-none');
+      els.runBtn.disabled = false;
+      els.resultsSection.style.opacity = '0.65';
+    }
 
-<li>Total hours exceeding the limit: 798</li>
+    function hideMessages() {
+      els.errorBox.style.display = 'none';
+      els.warningBox.style.display = 'none';
+      els.dataInfoBox.style.display = 'none';
+      els.errorMsgText.innerHTML = '';
+      els.warningText.innerHTML = '';
+    }
 
-<li>The pollutant SO<sub>2</sub> has not exceeded the annual limit in any of the 15 years analyzed (0% of the period).</li>
+    function setStatus(kind, html) {
+      els.fileStatus.className = 'd-flex align-items-center fw-semibold rounded-3 p-2';
+      const base = kind === 'success'
+        ? 'bg-success bg-opacity-10 text-success'
+        : kind === 'danger'
+          ? 'bg-danger bg-opacity-10 text-danger'
+          : 'bg-primary bg-opacity-10 text-primary';
+      els.fileStatus.classList.add(...base.split(' '));
+      els.fileStatus.innerHTML = html;
+    }
 
-<li>Total days exceeding the limit: 0</li>
+    function bytesToBase64(uint8) {
+      const chunkSize = 0x8000;
+      let binary = '';
+      for (let i = 0; i < uint8.length; i += chunkSize) {
+        binary += String.fromCharCode(...uint8.subarray(i, i + chunkSize));
+      }
+      return btoa(binary);
+    }
 
-<li>Total hours exceeding the limit: 0</li>
+    function fillSelect(selectEl, cols, keep = []) {
+      const current = selectEl.value;
+      selectEl.innerHTML = '';
+      for (const col of cols) {
+        const opt = new Option(col, col);
+        if (keep.includes(col)) opt.selected = true;
+        selectEl.add(opt);
+      }
+      if (current && cols.includes(current)) selectEl.value = current;
+    }
 
-<li>The most problematic pollutant during the period 2011–2025 has been CO, with 0 years exceeding the annual limit.</li>
+    function guessDefaults(cols) {
+      const lower = new Map(cols.map(c => [c.toLowerCase(), c]));
+      const outcomeCandidates = ['casos_total', 'cases_total', 'incidencia_1000', 'incidence_1000'];
+      const exposureCandidates = ['no2', 'pm10', 'pm25', 'o3', 'temp_mean', 'temperature', 'rh', 'humidity'];
 
-<li>The most critical year of the period was 2011, with 0 pollutants exceeding the annual limit.</li>
-<li>The analysis of air pollution in El Prat (Sagnier) during the period 2011–2025 
-  shows that air quality has presented recurring breaches of European legal limits, especially for pollutants associated with traffic and industrial activities.</li> <p></p>
-</ul></div>
-    <div align="center" data-aos="fade-up">
-  <h1>Sivic</h1>
-   </p>  
-  <img class="img-fluid rounded shadow-sm my-3" src="sivic.png">
-  <p>This graphic from SIVIC shows how health issues in El Prat change over time. We can look at specific diseases, age groups, sex...
-</p>
-  <p></p>
-  <h2>Covid-19</h2>
+      let outcome = outcomeCandidates.map(c => lower.get(c)).find(Boolean) || cols[0] || '';
+      let exposure = exposureCandidates.map(c => lower.get(c)).find(Boolean) || cols[1] || '';
+      if (outcome === exposure && cols.length > 1) exposure = cols.find(c => c !== outcome) || exposure;
+      return { outcome, exposure };
+    }
 
- <li>The majority of the medical cases recorded from 2020 onwards are due to COVID-19. This explains the spikes that break the normal rhythm of previous years.</li>
- <p></p>
-<h2>Specific Age Groups Are Affected More</h2>
-<ul><li>
-The impact of these diseases is not the same for everyone. Respiratory illnesses often target a specific age group.</li>
+    function filterConfounders(cols, outcome, exposure) {
+      return cols.filter(c => c !== outcome && c !== exposure && c !== 'date' && c !== 'time');
+    }
 
-<li>Children and the Old People: These two groups are the most vulnerable. Children have developing lungs. The old people often have weaker immune systems.</li>
-<p></p>
-<h2>No Significant Difference Between Men and Women </h2>
-<li> When analyzing the data by sex, the results are very similar for both men and women.</li>
-<li>The lower lines (SO<sub>2</sub>, CO, C<sub>6</sub>H<sub>6</sub>): substances like carbon monoxide or benzene are very close to zero. This are good news, as it indicates that certain types of industrial and old fuel pollution are under control.</li>
-<p></p>
+    async function initWebR() {
+      try {
+        webR = new WebR();
+        await webR.init();
+        await webR.evalR(`
+          suppressPackageStartupMessages({
+            if (!requireNamespace('dlnm', quietly = TRUE)) {
+              webr::install('dlnm')
+            }
+            library(dlnm)
+            library(splines)
+          })
+        `);
+        ready = true;
+        setStatus('success', '<i class="fa-solid fa-circle-check me-2"></i>WebR Engine Ready');
+      } catch (err) {
+        setStatus('danger', '<i class="fa-solid fa-circle-xmark me-2"></i>Initialization Failed');
+        showError('Could not start R in the browser: ' + err.message);
+      }
+    }
 
-  <div align="center" data-aos="fade-up">
-  <h1>What is the Origin of Air Pollution in El Prat (Sagnier)</h1>
-     <img class="img-fluid rounded shadow-sm my-3" src="pollutionrose(no2).png">
-  <p><li>To know the origin of air pollution in El Prat (Sagnier) is easy with RStudio</li></p>
-  <p></p>
-  <p><li>We only need data in columns named WS for wind speed, WD for wind direction and to choose a pollutant e.g.: NO<sub>2</sub>. These are conditions of the openair library
-  in order to create a pollution rose with the instruction: <code>pollutionRose(cityall, pollutant="no2")</code></li></p>
-  <p></p>
-  <p><li>This is a Pollution Rose. It works like a compass, showing exactly which 
-    direction the wind blows from when the air in El Prat contains high levels of Nitrogen Dioxide (NO<sub>2</sub>).</li></p>
-    <p><li>The Petals: The length of each section shows how often the wind blows from that direction.The Colors: Orange and dark red represent high pollution levels. 
-    Green and yellow represent clean air.</li></p>
-    <p><li>The Colors: Orange and dark red represent high pollution levels. Green and yellow represent clean air.</li></p>
-    <p><li>As you can see in the following image air pollution of El Prat (Sagnier) comes form Southwest area.</li></p>
-<p></p>
-    <img class="img-fluid rounded shadow-sm my-3" src="googlemaps.png">
-   </div>  
-  <p></p>  
+    function selectedConfounders() {
+      return Array.from(els.confounders.selectedOptions).map(opt => opt.value);
+    }
+
+    function buildRCode({ outcome, exposure, maxLag, confounders, includeTime, antiOverfit }) {
+      const confVec = confounders.length ? `c(${confounders.map(v => JSON.stringify(v)).join(', ')})` : 'character(0)';
+      const timeDfExpr = includeTime ? 'res_df_time <- max(4, min(30, round(nrow(df_clean) / 365 * 4)))' : 'res_df_time <- 0';
+      const lagDf = antiOverfit ? 2 : 3;
+      const expDf = 3;
+
+      return `
+        suppressPackageStartupMessages({
+          library(dlnm)
+          library(splines)
+        })
+
+        res_success <- FALSE
+        res_error <- ''
+        res_summary <- ''
+        res_fam <- ''
+        res_nobs <- 0
+        res_total <- nrow(df)
+        res_ncol <- ncol(df)
+        res_df_time <- 0
+        res_retries <- 0
+        removed_conf <- 0
+        removed_list <- ''
+        val_cold <- NA_real_
+        val_heat <- NA_real_
+        n_obs_cold <- 0
+        n_obs_heat <- 0
+        max_rr <- NA_real_
+
+        tryCatch({
+          df_clean <- df
+          if (!'time' %in% names(df_clean)) df_clean$time <- seq_len(nrow(df_clean))
+
+          y <- df_clean[[${JSON.stringify(outcome)}]]
+          x <- df_clean[[${JSON.stringify(exposure)}]]
+
+          if (all(is.na(y))) stop('Outcome is completely empty (all NA).')
+          if (all(is.na(x))) stop('Exposure is completely empty (all NA).')
+
+          # Keep only relevant variables and remove bad confounders.
+          conf_list <- ${confVec}
+          good_conf <- character(0)
+          if (length(conf_list) > 0) {
+            for (v in conf_list) {
+              if (!v %in% names(df_clean)) next
+              vv <- df_clean[[v]]
+              if (v %in% c(${JSON.stringify(outcome)}, ${JSON.stringify(exposure)}, 'date', 'time')) next
+              if (all(is.na(vv))) next
+              if (length(unique(na.omit(vv))) <= 1) next
+              if (is.factor(vv)) df_clean[[v]] <- as.numeric(vv)
+              good_conf <- c(good_conf, v)
+            }
+          }
+          removed_conf <- length(conf_list) - length(good_conf)
+          if (removed_conf > 0) removed_list <- paste(setdiff(conf_list, good_conf), collapse = ', ')
+
+          # Build analysis dataset.
+          keep_vars <- unique(c(${JSON.stringify(outcome)}, ${JSON.stringify(exposure)}, good_conf, 'time'))
+          df_model <- df_clean[, keep_vars, drop = FALSE]
+
+          # Drop rows with missing values in analysis variables only.
+          complete_idx <- complete.cases(df_model)
+          df_model <- df_model[complete_idx, , drop = FALSE]
+          if (nrow(df_model) < 50) stop('Too few complete observations after cleaning.')
+
+          y2 <- df_model[[${JSON.stringify(outcome)}]]
+          x2 <- df_model[[${JSON.stringify(exposure)}]]
+
+          # Decide family from outcome.
+          is_count <- all(y2 >= 0, na.rm = TRUE) && all(abs(y2 - round(y2)) < 1e-8, na.rm = TRUE)
+          res_fam <- if (is_count) 'quasipoisson' else 'gaussian'
+          fam_obj <- if (is_count) quasipoisson() else gaussian()
+
+          cb <- crossbasis(
+            x2,
+            lag = ${maxLag},
+            argvar = list(fun = 'ns', df = ${expDf}),
+            arglag = list(fun = 'ns', df = ${lagDf})
+          )
+
+          ${timeDfExpr}
+
+          rhs <- c('cb', if (length(good_conf) > 0) good_conf else character(0), if (${includeTime ? 'TRUE' : 'FALSE'}) paste0('ns(time, df=', res_df_time, ')') else character(0))
+          fml <- as.formula(paste('${outcome} ~', paste(rhs, collapse = ' + ')))
+
+          model <- glm(fml, data = df_model, family = fam_obj, na.action = na.exclude)
+          res_nobs <- nobs(model)
+          if (res_nobs < 50) stop('Too many rows removed during model fitting.')
+
+          cen_val <- median(x2, na.rm = TRUE)
+          if (!is.finite(cen_val)) cen_val <- mean(x2, na.rm = TRUE)
+          pred <- crosspred(cb, model, cen = cen_val, by = 0.1)
+
+          q_cold <- as.numeric(quantile(x2, 0.01, na.rm = TRUE, names = FALSE))
+          q_heat <- as.numeric(quantile(x2, 0.99, na.rm = TRUE, names = FALSE))
+          val_cold <- pred$predvar[which.min(abs(pred$predvar - q_cold))]
+          val_heat <- pred$predvar[which.min(abs(pred$predvar - q_heat))]
+          n_obs_cold <- sum(x2 <= val_cold, na.rm = TRUE)
+          n_obs_heat <- sum(x2 >= val_heat, na.rm = TRUE)
+          max_rr <- suppressWarnings(max(pred$allRRfit, na.rm = TRUE))
+
+          png('plot_3d.png', width = 960, height = 700, res = 110)
+          par(mar = c(2.5, 2.5, 2.5, 2))
+          plot(pred, '3d', xlab = '${exposure}', ylab = 'Lag (days)', zlab = 'Relative Risk',
+               main = '3D Response Surface', col = '#7dd3fc', theta = 230, phi = 30, ltheta = 120)
+          dev.off()
+
+          png('plot_overall.png', width = 860, height = 520, res = 110)
+          plot(pred, 'overall', xlab = '${exposure}', ylab = 'Relative Risk (RR)',
+               main = 'Overall Cumulative Effect', lwd = 3)
+          abline(h = 1, lty = 2, col = 'gray50')
+          dev.off()
+
+          png('plot_cold.png', width = 700, height = 480, res = 110)
+          plot(pred, 'slices', var = val_cold,
+               main = paste0('Lag Response: Extreme Cold (', round(val_cold, 2), ')'),
+               ylab = 'Relative Risk', xlab = 'Lag (days)', lwd = 3)
+          abline(h = 1, lty = 2, col = 'gray50')
+          dev.off()
+
+          png('plot_heat.png', width = 700, height = 480, res = 110)
+          plot(pred, 'slices', var = val_heat,
+               main = paste0('Lag Response: Extreme Heat (', round(val_heat, 2), ')'),
+               ylab = 'Relative Risk', xlab = 'Lag (days)', lwd = 3)
+          abline(h = 1, lty = 2, col = 'gray50')
+          dev.off()
+
+          res_summary <- paste(capture.output(summary(model)), collapse = '\n')
+          res_success <- TRUE
+        }, error = function(e) {
+          res_error <<- e$message
+        })
+      `;
+    }
+
+ async function bufferToDf(buf) {
+  await webR.FS.writeFile('data.csv', new Uint8Array(buf));
+  await webR.evalR(`
+    df <- read.csv('data.csv', stringsAsFactors = FALSE, na.strings = c('NA','na','',' ','null','NULL'))
+    names(df) <- make.names(names(df), unique = TRUE)
+    for (nm in names(df)) {
+      if (nm == 'date') next
+      if (is.character(df[[nm]])) {
+        suppressWarnings({ num <- as.numeric(df[[nm]]) })
+        if (sum(!is.na(num)) > sum(!is.na(df[[nm]])) * 0.7) df[[nm]] <- num
+      }
+    }
+    if ('date' %in% names(df)) {
+      df$date <- as.Date(df$date, tryFormats = c('%Y-%m-%d', '%d/%m/%Y', '%m/%d/%Y'))
+    }
+    df$time <- seq_len(nrow(df))
+  `);
+}
+
+
+
+async function processLoadedData() {
+  const cols = await getRValue('names(df)', 'array');
+  const rows = await getRValue('nrow(df)', 'number');
+  if (!rows) throw new Error('El CSV està buit o no s\'ha pogut llegir.');
+
+  lastData = { cols, rows };
+  const defaults = guessDefaults(cols);
+
+  fillSelect(els.outcome, cols);
+  fillSelect(els.exposure, cols);
+  els.outcome.value = defaults.outcome;
+  els.exposure.value = defaults.exposure;
+
+  updateConfoundersFromSelection();
+  enableForm();
+
+  els.colInfo.innerHTML = `✅ Dataset carregat: <strong>${rows} files</strong> i <strong>${cols.length} variables</strong>.`;
+  setStatus('success', '<i class="fa-solid fa-circle-check me-2"></i>Dades Processades');
+}
+
+
+
+
+    async function getRValue(expr, type = 'string') {
+      const obj = await webR.evalR(expr);
+      if (type === 'boolean') return await obj.toBoolean();
+      if (type === 'number') return await obj.toNumber();
+      if (type === 'array') return await obj.toArray();
+      return await obj.toString();
+    }
+
+    async function loadPlot(path, imgEl) {
+      const bytes = await webR.FS.readFile(path);
+      imgEl.src = `data:image/png;base64,${bytesToBase64(bytes)}`;
+      imgEl.style.display = 'block';
+    }
+
+    function resetPlots() {
+      for (const el of [els.plot3dImg, els.lagPlotImg, els.plotColdImg, els.plotHeatImg]) {
+        el.removeAttribute('src');
+        el.style.display = 'none';
+      }
+      els.plot3dCaption.innerHTML = '<i class="fa-solid fa-cube fa-3x text-secondary d-block mb-3"></i>The 3D response surface will appear here.';
+      els.plotCaption.textContent = 'No plot generated yet.';
+      els.coldCaption.textContent = '';
+      els.heatCaption.textContent = '';
+    }
+
+    function enableForm() {
+      els.outcome.disabled = false;
+      els.exposure.disabled = false;
+      els.confounders.disabled = false;
+      els.runBtn.disabled = false;
+      els.outcome.classList.remove('bg-light');
+      els.exposure.classList.remove('bg-light');
+      els.confounders.classList.remove('bg-light');
+    }
+
+    function updateConfoundersFromSelection() {
+  const outcome = els.outcome.value;
+  const exposure = els.exposure.value;
+  const cols = lastData.cols;
+
+  const allowed = filterConfounders(cols, outcome, exposure);
+
+  // detectem noms possibles (robust)
+  const lowerMap = new Map(cols.map(c => [c.toLowerCase(), c]));
+
+  const defaultTemp =
+    lowerMap.get('temp_mean') ||
+    lowerMap.get('temperature') ||
+    lowerMap.get('temp');
+
+  const defaultRH =
+    lowerMap.get('rh') ||
+    lowerMap.get('humidity');
+
+  els.confounders.innerHTML = '';
+
+  for (const c of allowed) {
+    const isDefault = (c === defaultTemp || c === defaultRH);
+    const opt = new Option(c, c, false, isDefault);
+    els.confounders.add(opt);
+  }
+}
+
+    initWebR();
+
+els.fileInput.addEventListener('change', async (e) => {
+  hideMessages();
+  els.demoDataset.value = ""; // Reiniciem el dropdown d'exemples
+  const file = e.target.files?.[0];
+  if (!file || !ready) return;
+
+  try {
+    setStatus('info', '<span class="spinner-border spinner-border-sm me-2"></span>Llegint dades...');
+    const buf = await file.arrayBuffer();
+    await bufferToDf(buf);
+    await processLoadedData();
+  } catch (err) {
+    setStatus('danger', '<i class="fa-solid fa-circle-xmark me-2"></i>Error de lectura');
+    showError('Error llegint CSV: ' + err.message);
+  }
+});
+els.demoDataset.addEventListener('change', async (e) => {
+  const filename = e.target.value;
+  if (!filename) return; // Ha tornat a posar "Puja el teu arxiu"
+
+  hideMessages();
+  els.fileInput.value = ""; // Netejem l'input file
+  if (!ready) return;
+
+  try {
+    setStatus('info', '<span class="spinner-border spinner-border-sm me-2"></span>Descarregant dataset...');
     
-  <div align="center" data-aos="fade-up"> 
-<h2>Polar Plot</h2>
-      <p></p>
-  <img class="img-fluid rounded shadow-sm my-3" src="polarPlot(no2).png">
-      <p></p>
-<p><li>The Polar Plot goes a step further than the previous graph. It shows how pollution changes based on two things at the same time: 
-  the direction of the wind and the speed of the wind.</li></p>
-  <p><li>Distance from the center: The closer to the center , the weaker the wind is. The further out, the stronger the wind blows.</li></p>
-  <p><li>The Colors: Purple and dark red show the highest pollution (NO<sub>2</sub>). Blue and green show clean air.</li></p>
-  <p><li>The highest pollution (dark purple) happens right in the center when the wind speed is nearly zero. When the air does not move, 
-  traffic emissions from local streets cannot escape and accumulate quickly around the station.</li></p></div>
-<p></p>
+    // Obtenim l'arxiu via xarxa
+    const response = await fetch(filename);
+    if (!response.ok) throw new Error(`No s'ha pogut trobar l'arxiu ${filename} al servidor.`);
+    const buf = await response.arrayBuffer();
 
-  <div align="center" data-aos="fade-up"> 
-  <h2>Polar Map</h2>
-  <p></p>
-       <img class="img-fluid rounded shadow-sm my-3" src="polarMap.png">
-  <p></p>
-  <p><li>This map takes the polar plot and overlays it directly onto the real map of El Prat de Llobregat, centering it right on the Sagnier measuring station. 
-    It shows exactly which roads and infrastructures are causing the pollution.</li></p>
-  <p><li>This colored overlay sits directly over the C-31 / Autovia de Castelldefels and the Damm brewery.</li></p>
-  <p><li>It proves that when the wind blows from these directions, it carries the heavy emissions from highway traffic and industrial boilers straight to the monitoring station.</li></p>
-</div>
-<p></p>
+    setStatus('info', '<span class="spinner-border spinner-border-sm me-2"></span>Processant dades...');
+    await bufferToDf(buf);
+    await processLoadedData();
 
- <div align="center" data-aos="fade-up">
-     <h2>1. RR = Relative Risk </h2>
-    <p>General formula:</p>
-     <p>$$RR = \frac{I_e}{I_0} = \frac{\text{Incidence Exposed}}{\text{Incidence Unexposed}}$$</p>
-   <p>
-Days are divided based on whether NO<sub>2</sub> exceeds the WHO daily guideline value: (25μg/m<sup>3</sup>)</p>
+  } catch (err) {
+    setStatus('danger', '<i class="fa-solid fa-circle-xmark me-2"></i>Error de descàrrega');
+    showError('Error carregant dataset d\'exemple: ' + err.message);
+  }
+});
 
-<p>High Exposure (NO<sub>2</sub> > 25μg/m<sup>3</sup>)
-Average Incidence = 1,98 cases / 1000 (3484 days)</p>
+    els.outcome.addEventListener('change', () => updateConfoundersFromSelection());
+    els.exposure.addEventListener('change', () => updateConfoundersFromSelection());
 
-<p>Low Exposure (NO<sub>2</sub> ≤ 25μg/m<sup>3</sup>) Average Incidence = 1,85 cases / 1000 (1734 days)</p>
-<p>$$RR = \frac{1,98}{1,85} \approx 1,07$$</p>
-<p>RR > 1 = 1,07 indicates a harmful effect.</p>
-     <p></p>
-    
-    <h2>2. AR = Attributable Risk</h2>
-    <p>General formula:</p>
-     <p>$$AR = I_e - I_0$$</p>
-     <p>$$AR = 1,98 - 1,85 = 0,13$$</p>
-   <p><li>Excess NO2 generates 0.13 extra cases of respiratory infections per 1,000 inhabitants.</li>
-<li>This equates to 13 extra cases of respiratory infections per 100,000 inhabitants.</li>
-<li>Context: El Prat de Llobregat has a population of 66,000.</li>
-<p>$$\frac{0,13 \text{ casos}}{1.000 \text{ hab.}} \cdot 66 = 9 \text{ cases in El Prat de Llobregat}$$</p>
-     <p></p>
-  
-  <h2>3. AR% = Attributable Risk Percentage </h2>
-    <p>General formula:</p>
-     <p>$$AR\% = \frac{RR - 1}{RR} \cdot 100$$</p>
-   <p>$$AR\% = \frac{1,07 - 1}{1,07} \cdot 100 = 6,54\%$$</p>
-   <li>6,54% of respiratory infection cases are caused by excess NO<sub>2</sub></li>
-   <p></p>
+    els.runBtn.addEventListener('click', async () => {
+      hideMessages();
+      resetPlots();
 
-   <p>NO<sub>2</sub> Exceedances:</p>
-<p>
+      const outcome = els.outcome.value;
+      const exposure = els.exposure.value;
+      const maxLag = Number(els.maxLag.value);
+      const confounders = selectedConfounders().filter(v => v !== outcome && v !== exposure);
+      const includeTime = els.includeTime.checked;
+      const antiOverfit = els.antiOverfit.checked;
 
-<li>Number of days with exceedances = 3,484 days </li>
-<li>Total number of analyzed days = 5,191 days</li>
-<p>$$\frac{3.184}{5.191} = 0,613 \rightarrow 61,3\%$$</p> 
-<p>On 61.3 % of the days, the maximum recommended levels of 25μg/m<sup>3</sup>
-by the World Health
+      if (!outcome || !exposure) {
+        showError('Please select both Outcome and Exposure variables.');
+        return;
+      }
+      if (outcome === exposure) {
+        showError('Outcome and Exposure cannot be the same variable.');
+        return;
+      }
 
-Organization are exceeded. We have calculated with R the daily limit of 40 μg/m<sup>3</sup> 
-(EU legal
-limit) and it has given us $$\frac{5}{24} = 0,21 $$ 0,21 days in 15 years (2011-2025) The EU legal limit is
+      els.loadingMsg.classList.remove('d-none');
+      els.runBtn.disabled = true;
+      els.runBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Running...';
+      els.resultsSection.style.opacity = '0.65';
+      els.modelSummary.textContent = 'Processing model...';
 
-exceeded. European law says that it can be exceeded 18 times every year.</p>
-<p></p>
-<h2>Poisson Model</h2>
+      try {
+        const code = buildRCode({ outcome, exposure, maxLag, confounders, includeTime, antiOverfit });
+        await webR.evalR(code);
 
-<p>$$P(X = k) = \frac{\lambda^k \cdot e^{-\lambda}}{k!}$$</p>
+        const success = await getRValue('res_success', 'boolean');
+        if (!success) {
+          const msg = await getRValue('res_error', 'string');
+          throw new Error(msg || 'Unknown model error');
+        }
 
-<p>Definition of variables:</p>
-<li>k = no of observed cases</li>
- <li>λ = Average Incidences</li>
-<li>λ 0= 1,85 (low)</li>
-<li>λ 1= 1,98 (high)</li>
-<p></p>
-<p>$$P(X = 2) = \frac{1,85^2 \cdot e^{-1,85}}{2!} = 0,269 \rightarrow 26,9\%$$ probability of 2 cases if pollution ↓</p>
-<p>$$P(X = 2) = \frac{1,98^2 \cdot e^{-1,98}}{2!} = 0,271 \rightarrow 27,1\%$$ probability of 2 cases if pollution ↑ </p>
+        const validRows = await getRValue('res_nobs', 'number');
+        const totalRows = await getRValue('res_total', 'number');
+        const totalCols = await getRValue('res_ncol', 'number');
+        const dfTime = await getRValue('res_df_time', 'number');
+        const retries = await getRValue('res_retries', 'number');
+        const famTxt = await getRValue('res_fam', 'string');
+        const vCold = await getRValue('val_cold', 'number');
+        const vHeat = await getRValue('val_heat', 'number');
+        const nCold = await getRValue('n_obs_cold', 'number');
+        const nHeat = await getRValue('n_obs_heat', 'number');
+        const maxRR = await getRValue('max_rr', 'number');
+        const removed = await getRValue('removed_conf', 'number');
+        const removedNames = await getRValue('removed_list', 'string');
+        const summary = await getRValue('res_summary', 'string');
 
-<p>If NO<sub>2</sub> pollution is low, there is a 26.9 % probability of having 2 cases per 1000 inhabitants.</p>
-<p>If NO<sub>2</sub> pollution is high, there is a 27.1 % probability of having 2 cases per 1000
-inhabitants.</p>
-<p>P = Probability of 2 cases of respiratory infections per 1000 inhabitants based on a mathematical
-Poisson model that has taken into account the daily data of 15 years (2011-2025) of infections and
-air pollutants (NO<sub>2</sub> , O<sub>3</sub> , etc.) at the 3 primary care centers in El Prat de Llobregat. We know that
-the data has been obtained from the XPVCA database (Air Pollution Prevention and Monitoring
-Network) and SIVIC (Information System for Surveillance in Catalonia).</p>
-     <p>Therefore, the probability of 2 respiratory infections per every 1,000 inhabitants of El Prat is 26.9%
-if NO2 levels are low, meaning below the WHO limit of (25μg/m
-3
-) on the other hand, if the NO<sub>2</sub>
+        if (removed > 0) {
+          els.warningText.innerHTML = `Automatically removed <b>${removed}</b> confounder(s): <code>${removedNames}</code>`;
+          els.warningBox.style.display = 'block';
+        }
 
-pollution level is high, above the WHO, we will have a 27.1% probability.</p>
-<p>High exposure: 3184 days</p>
-<p>$$\frac{3.184}{5.191} = 0,613 \rightarrow 61,3\%$$</p>
-<p>Low exposure: 1734 days</p>
-<p>$$\frac{1.734}{5.191} = 0,334 \rightarrow 33,4\%$$</p>
-<p>% of days with low and high exposure.</p>
-<p></p>
-<h2>Total Probability / Bayes' Theorem</h2>
-<p>$$P(X = 2) = (0,613 \cdot 0,271) + (0,334 \cdot 0,269) = 0,256 \rightarrow 25,6\%$$</p>
-<p>The director tells us that an incidence of 1% is worrying.</p>
+        els.dataInfoText.innerHTML = `
+          <ul class="mb-0 lh-lg">
+            <li><strong>Dataset used:</strong> <b>${validRows}</b> complete observations from <b>${totalRows}</b> total rows.</li>
+            <li><strong>Variables:</strong> <b>${totalCols}</b> columns available.</li>
+            <li><strong>Family:</strong> <b>${famTxt.toUpperCase()}</b>.</li>
+            <li><strong>Configuration:</strong> ${includeTime ? `<b>Temporal control:</b> ${dfTime} df${retries > 0 ? ` <span class="badge bg-warning text-dark ms-2">Auto-reduced ${retries} times</span>` : ''}` : '<span class="badge bg-secondary">No temporal control</span>'} | <b>Lag df:</b> ${antiOverfit ? 2 : 3} | <b>Max lag:</b> ${maxLag} days.</li>
+          </ul>`;
+        els.dataInfoBox.style.display = 'block';
 
-     <p></p>
+        await loadPlot('plot_3d.png', els.plot3dImg);
+        await loadPlot('plot_overall.png', els.lagPlotImg);
+        await loadPlot('plot_cold.png', els.plotColdImg);
+        await loadPlot('plot_heat.png', els.plotHeatImg);
 
-  <div align="center" data-aos="fade-up">
+        els.plot3dCaption.innerHTML = `3D response surface for <b>${exposure}</b> over <b>${maxLag}</b> lag days.`;
+        els.plotCaption.innerHTML = `Overall cumulative effect of <b>${exposure}</b> on <b>${outcome}</b>.`;
+        els.coldCaption.innerHTML = `Extreme cold slice: <b>${Number.isFinite(vCold) ? vCold.toFixed(2) : 'NA'}</b> | observations: <b>${nCold}</b>.`;
+        els.heatCaption.innerHTML = `Extreme heat slice: <b>${Number.isFinite(vHeat) ? vHeat.toFixed(2) : 'NA'}</b> | observations: <b>${nHeat}</b>.`;
+        els.modelSummary.textContent = `General Linear Model (${famTxt})\nTime degrees of freedom: ${dfTime}\nAnti-overfitting mode: df=${antiOverfit ? 2 : 3}\nMax RR (estimated): ${Number.isFinite(maxRR) ? maxRR.toFixed(2) : 'NA'}\n\n${summary}`;
 
-  <h2>DLNM (Distributed Lag Non-linear Model) </h2>
-      <p></p>
-<p>This mathematical model was created by Gasparrini et al. (2010).
-Pollutants have a lag time with respect to health; that is, there is not always an immediate effect. In
-many cases, they can cause an effect later on.<p>
-<p>These models are non-linear because, if they were linear, it would mean that an increase in pollution
-causes a proportional increase in respiratory cases. Although this might seem logical, it is not
-exactly how it works. An increase of 5μg/m<sup>3</sup> of NO<sub>2</sub> does not have the same impact if it
-increases from 5 to 10 as it does if it increases from 40 to 45. In other words, it is a curve rather
-than a straight line.</p>
-<p>The delays are called LAG and can be equal to 0 (no delay) or any number between 0 and 14. If the
-LAG is equal to 14, it means that two weeks pass between the peak of the pollutant and the peak of
-the health problems.</p>
-    <p></p>
-    <h3>Reference</h3>
-    <p>
-Gasparrini, A. ; Armstrong, B. ; Kenward, M.G. (2010). Distributed lag non-linear models. Stat. Med. 29 (21):2224-34.
-DOI: https://doi.org/10.1002/sim.3940</p>
-  <p></p>
-     <img class="img-fluid rounded shadow-sm my-3" src="dlnm.png">
-     <p></p>
-<p>This graph shows a 3D Response Surface generated using an advanced statistical model called DLNM (Distributed Lag Non-linear Models). Its objective is to show how NO<sub>2</sub>pollution levels relate to the risk of suffering respiratory diseases over time.
-The graph is read by analyzing three axes simultaneously:</p>
-    <li>NO<sub>2</sub> Axis (Bottom left): Shows the concentration of the pollutant. Values range from low levels (near 20) to high levels (above 60μg/m<sup>3</sup>).</li>
-    <li>Lag Axis (Bottom right): Represents the "lag" or the number of days that pass from when a person breathes the polluted air until the illness manifests (from 0 to 14 days).</li>
-    <li>Relative Risk Axis (Vertical): Indicates by how much the probability of getting sick is multiplied. The reference value is 1.00 (normal risk). Anything above 1.00 signifies an increased risk, and anything below 1.00 indicates a risk lower than average.</li>
-<p></p>
-<h3>What is observed in the shape of the black surface?</h3>
-    <li>Delayed and Cumulative Effect: Contrary to what it might seem, the risk is not immediate. At Lag 0 (front right) the risk is low, but as NO<sub>2</sub> rises toward 60 and we move toward higher lag days (Lag between 5 and 14 days, in the background), the surface rises significantly, exceeding 1.05.</li>
-    <li>Upward Slope: This upward tilt statistically demonstrates that severe pollution acts in the medium term; the health impact on citizens escalates, and the true peak of hospital admissions appears days after the exposure.</li>
-
-  <p></p>
-  <div align="center" data-aos="fade-up">
-  <h2>Conclusion</h2>
-<p>Overall, the graphics show that nitrogen dioxide (NO<sub>2</sub>) levels in El Prat (Sagnier) change depending on the time of day, month, and year, with higher concentrations usually appearing during peak activity hours, likely related to traffic and urban activity.
-
-In 2025, most days present low or moderate pollution levels, meaning that air quality is generally acceptable, although some days show higher concentrations.
-
-In addition, we analyzed health data from the SIVIC system and compared it with the pollution levels. This comparison suggests that air pollution may be related to certain respiratory diseases, since higher pollution periods can coincide with increases in health incidents.
-
-That's why, the study indicates that air quality can have an impact on public health, highlighting the importance of monitoring pollution levels and reducing emissions to protect people’s health.
-To understand this impact, our Pollution Rose, Polar Plot, and Polar Map reveal that the highest 
-  NO<sub>2</sub> concentrations are coming from the West and Southwest, aligning directly with 
-  the C-31 / Autovia de Castelldefels and extending toward the Barcelona-El Prat Airport. 
-  Furthermore, a significant localized source is identified to the North/Northwest, right over the Damm brewery, where industrial boilers, 
-  cogeneration plants, and heavy distribution truck traffic feed directly into the urban wind path. According to weather data from Meteocat, while eastern sea breezes keep the city clean, winter inversions and calm, windless conditions trap all these highway, industrial, and urban emissions right at ground level, creating the high-pollution seen at the center of the 
-  Polar Plot where wind speed is nearly zero.
-  This trapped pollution is a direct trigger for the respiratory medical cases recorded by SIVIC, which show that from 2020 onwards, the majority of cases are linked to COVID-19 and winter flues; although these are viral infections, poor air quality inflames the lungs and weakens the body's natural defenses. This biological vulnerability is rigorously confirmed by our DLNM (Distributed Lag Non-linear Model) 3D surface, which proves that the health impact of high NO2 concentrations (above 60μg/m<sup>3</sup> ) is not just immediate, but cumulative, showing a significant delayed effect where the relative risk of respiratory admissions escalates and peaks between 5 and 14 days after exposure. Finally, the health data shows no noticeable difference between men and women because air is a shared resource, but it highlights a high vulnerability among specific age groups, showing that children and the elderly are the primary victims when these environmental, industrial, and delayed biological factors align. </p>
-<p></p>
-  </ul>
-<button id="backToTop" class="btn btn-primary" 
-style="position: fixed; bottom: 25px; right: 25px; display:none; border-radius: 50%;">
-<i class="fa-solid fa-arrow-up"></i>
-</button>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
- 
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = themeToggle.querySelector('i');
-
-    themeToggle.addEventListener('click', () => {
-      if (document.body.getAttribute('data-bs-theme') === 'dark') {
-        document.body.setAttribute('data-bs-theme', 'light');
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
-      } else {
-        document.body.setAttribute('data-bs-theme', 'dark');
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
+        els.resultsSection.style.opacity = '1';
+      } catch (err) {
+        showError(`<b>WebR Engine Error:</b><br><code>${err.message}</code>`);
+      } finally {
+        els.loadingMsg.classList.add('d-none');
+        els.runBtn.disabled = false;
+        els.runBtn.innerHTML = '<i class="fa-solid fa-play-circle me-2"></i>Compute DLNM';
       }
     });
   </script>
-    <script>
-const btn = document.getElementById("backToTop");
-
-window.addEventListener("scroll", () => {
-  btn.style.display = window.scrollY > 200 ? "block" : "none";
-});
-
-btn.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-</script>
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>
-  AOS.init({
-    duration: 1000, // duración de la animación
-    once: true     
-  });
-</script>
-<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 </body>
 </html>
