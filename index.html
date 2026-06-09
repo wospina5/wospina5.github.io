@@ -1,100 +1,199 @@
-<!DOCTYPE html><html lang="en"><head>  <meta charset="UTF-8" />  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />  <title>🌫️ Environmental Epidemiological Analysis – WHO Risk & CI</title>
-  <script src="https://cdn.tailwindcss.com"></script>  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">  <style>    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');    * { -webkit-tap-highlight-color: transparent; }    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background-color: #0f172a; color: #e2e8f0; }    .chart-container { position: relative; height: 280px; min-height: 280px; }    @media (min-width: 768px) { .chart-container { height: 380px; } }    .alert-dot { animation: ping 2s cubic-bezier(0,0,0.2,1) infinite; }    @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }    .overflow-x-auto { -webkit-overflow-scrolling: touch; }    .pollutant-card {      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);    }    .pollutant-card:hover {      transform: translateY(-2px);      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);      border-color: rgba(16, 185, 129, 0.4);    }    .info-tooltip {      position: relative;      display: inline-flex;      align-items: center;      cursor: help;      border-bottom: 1px dotted #94a3b8;    }    .info-tooltip .tooltip-text {      visibility: hidden;      width: 220px;      background-color: #1e293b;      color: #e2e8f0;      text-align: center;      border-radius: 8px;      padding: 6px 10px;      position: absolute;      z-index: 10;      bottom: 125%;      left: 50%;      margin-left: -110px;      font-size: 0.75rem;      font-weight: normal;      border: 1px solid #334155;      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);      opacity: 0;      transition: opacity 0.2s;      pointer-events: none;    }    .info-tooltip:hover .tooltip-text {      visibility: visible;      opacity: 1;    }  </style></head><body class="bg-slate-950 text-slate-200 antialiased">
-<nav class="bg-slate-900 border border-slate-700 rounded-2xl mx-4 mt-4 px-4 py-3 shadow-lg">  <div class="flex items-center gap-8">        
-    <a href="https://wospina.github.io/" class="flex items-center gap-3">      <img src="logo.png" class="w-10 h-10 rounded-full" onerror="this.src='https://via.placeholder.com/40'">      <span class="font-bold text-white text-lg">Web de Ilyas</span>    </a>
-    <button id="menuBtn" class="lg:hidden text-white text-2xl">☰</button>
-    <div id="menu" class="hidden lg:flex gap-6 items-center text-sm">
-      <div class="relative">        <button onclick="toggleDropdown('dd1')" class="text-slate-300 hover:text-white">          <i class="fa-solid fa-diagram-project me-1"></i> Cerca IA vs Google Academic        </button>        <div id="dd1" class="hidden absolute left-0 bg-slate-800 border border-slate-600 rounded-xl mt-2 p-2 min-w-[220px] z-50">          <a href="https://wospina.github.io/cerca.html" class="block px-3 py-2 hover:bg-slate-700 rounded-lg">            <i class="fa-solid fa-seedling me-1"></i> Recerca Tomàquet          </a>        </div>      </div>
-      <div class="relative">        <button onclick="toggleDropdown('dd2')" class="text-slate-300 hover:text-white">         <i class="fa-solid fa-folder-open me-1"></i>22 dies en 22 peus        </button>        <div id="dd2" class="hidden absolute left-0 bg-slate-800 border border-slate-600 rounded-xl mt-2 p-2 min-w-[300px] z-50">          <a href="https://wospina.github.io/introduccio.html" class="block px-3 py-2 hover:bg-slate-700 rounded-lg">           <i class="fa-solid fa-file-lines me-1"></i> Introducció al Projecte          </a>          <a href="https://wospina.github.io/vectors.html" class="block px-3 py-2 hover:bg-slate-700 rounded-lg">           <i class="fa-solid fa-compass me-1"></i>  Calculem rumbs amb vectors          </a>          <a href="https://wospina.github.io/distancies.html" class="block px-3 py-2 hover:bg-slate-700 rounded-lg">            <i class="fa-solid fa-arrows-left-right-to-line me-1"></i> Calculem distàncies amb GPS          </a>        </div>      </div>
-      <div class="relative">        <button onclick="toggleDropdown('dd3')" class="text-slate-300 hover:text-white">    <i class="fa-solid fa-folder-open me-1"></i> Contaminació i Salut al Baix Llobregat        </button>        <div id="dd3" class="hidden absolute left-0 bg-slate-800 border border-slate-600 rounded-xl mt-2 p-2 min-w-[260px] z-50">          <a href="https://wospina.github.io/contaminacio.html" class="block px-3 py-2 hover:bg-slate-700 rounded-lg">        <i class="fa-solid fa-head-side-mask me-1"></i> Contaminació i Salut Respiratòria a El Prat (Sagnier)          </a>          <a href="https://wospina.github.io/epi.html" class="block px-3 py-2 hover:bg-slate-700 rounded-lg">            <i class="fa-solid fa-head-side-mask me-1"></i>  Environmental Epidemiological Analysis          </a>          <a href="https://wospina.github.io/dlnm.html" class="block px-3 py-2 hover:bg-slate-700 rounded-lg">            <i class="fa-solid fa-smog me-1"></i> Distributed Lag Non-linear Models          </a>          <a href="https://wospina.github.io/epidemiologia.html" class="block px-3 py-2 hover:bg-slate-700 rounded-lg">            <i class="fa-solid fa-industry me-1"></i>  Resultats de El Prat (Sagnier)          </a>        </div>      </div>
-    </div>  </div>
-  <div id="mobileMenu" class="hidden flex-col gap-2 mt-4 lg:hidden text-sm">    <a href="https://wospina.github.io/cerca.html" class="block px-3 py-2 bg-slate-800 rounded-lg">Recerca Tomàquet</a>    <a href="https://wospina.github.io/introduccio.html" class="block px-3 py-2 bg-slate-800 rounded-lg">Introducció al Projecte</a>    <a href="https://wospina.github.io/vectors.html" class="block px-3 py-2 bg-slate-800 rounded-lg">Calculem rumbs amb vectors</a>    <a href="https://wospina.github.io/distancies.html" class="block px-3 py-2 bg-slate-800 rounded-lg">Calculem distancies amb GPS</a>    <a href="https://wospina.github.io/contaminacio.html" class="block px-3 py-2 bg-slate-800 rounded-lg">Contaminació i Salut Respiratòria</a>    <a href="https://wospina.github.io/epi.html" class="block px-3 py-2 bg-slate-800 rounded-lg">Environmental Epidemiological Analysis</a>    <a href="https://wospina.github.io/dlnm.html" class="block px-3 py-2 bg-slate-800 rounded-lg">DLNM</a>    <a href="https://wospina.github.io/epidemiologia.html" class="block px-3 py-2 bg-slate-800 rounded-lg">Resultats</a>  </div></nav>
-  <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">    <div class="bg-gradient-to-r from-sky-600 to-emerald-600 rounded-2xl sm:rounded-3xl shadow-xl mt-4 sm:mt-6 p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">      <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-xl rounded-xl sm:rounded-2xl flex items-center justify-center text-3xl sm:text-4xl">🌫️</div>        <div>          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight">Environmental Epidemiological Analysis</h1>          <p class="text-sky-100 text-sm sm:text-base">Pollution • Incidence • Correlations • Peaks • Trends • Delayed Impact</p>        </div>      </div>      <button id="howItWorksBtn" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-medium px-4 py-2 sm:px-5 sm:py-3 rounded-xl transition-all flex items-center gap-2 text-sm sm:text-base shadow-md whitespace-nowrap">        <span>❓</span> How it works      </button>    </div>
-    <div id="howItWorksModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all duration-300 p-4">      <div class="bg-slate-900 border border-slate-600 rounded-2xl sm:rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">        <div class="bg-gradient-to-r from-sky-600/30 to-emerald-600/30 px-4 sm:px-6 py-4 flex justify-between items-center border-b border-slate-700 sticky top-0">          <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">📊 How this tool works</h2>          <button id="closeModalBtn" class="text-slate-300 hover:text-white text-2xl sm:text-3xl leading-none transition-all p-1">&times;</button>        </div>        <div class="p-4 sm:p-6 space-y-4 text-slate-200 overflow-y-auto flex-1">          <div class="bg-slate-800/50 p-4 rounded-xl border-l-4 border-emerald-500">            <p class="font-semibold text-emerald-400">🎯 Purpose</p>            <p class="text-sm sm:text-base">Analyze the relationship between air pollution (PM₂.₅, NO₂, O₃, etc.) and epidemiological incidence rates. Explore delayed effects (lag), detect extreme incidence peaks, and visualize seasonal trends.</p>          </div>          <div>            <p class="font-semibold text-sky-400 flex items-center gap-2">📁 Data requirements</p>            <ul class="list-disc pl-5 space-y-1 mt-1 text-sm sm:text-base text-slate-300">              <li><span class="font-mono text-emerald-400">date</span> (YYYY-MM-DD) and <span class="font-mono text-emerald-400">incidencia_1000</span> are mandatory.</li>              <li>Optional: <span class="font-mono">pm2.5</span>, <span class="font-mono">pm10</span>, <span class="font-mono">no2</span>, <span class="font-mono">nox</span>, <span class="font-mono">o3</span>, <span class="font-mono">so2</span>.</li>              <li>CSV format with header, commas or semicolons supported.</li>            </ul>          </div>          <div>            <p class="font-semibold text-sky-400">🚀 How to use</p>            <ol class="list-decimal pl-5 space-y-1 text-sm sm:text-base text-slate-300">              <li>Select a preloaded city dataset or upload your own CSV using "Browse".</li>              <li>Adjust time filters to focus on specific periods.</li>              <li>Explore lagged correlations (0–7 days) for delayed impact.</li>              <li><strong>WHO Relative Risk:</strong> Automatically calculated when a pollutant with a WHO threshold is selected. Includes Attributable Risk.</li>              <li>Peaks table shows statistically unusual incidence days (mean + 2*SD).</li>              <li>Monthly bar chart reveals seasonal patterns.</li>            </ol>          </div>          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">            <div class="bg-slate-800/70 p-3 rounded-xl border border-slate-700/50">              <p class="font-semibold text-emerald-400">📈 Correlation & p-values</p>              <p class="text-slate-300 text-xs mt-1">Pearson's r + significance. p < 0.05 indicates association.<br>              <span class="text-amber-400">⚠️ Asterisks (*) indicate statistical significance (p < 0.05 = *, p < 0.01 = **, p < 0.001 = ***). They do NOT measure the strength of association.</span></p></div><div class="bg-slate-800/70 p-3 rounded-xl border border-slate-700/50"><p class="font-semibold text-amber-400">⚠️ Peak detection</p><p class="text-slate-300 text-xs mt-1">Threshold = mean + 2×standard deviation.</p></div><div class="bg-slate-800/70 p-3 rounded-xl border border-slate-700/50"><p class="font-semibold text-sky-400">🩺 Epidemiological Risk</p><p class="text-slate-300 text-xs mt-1">Computes Relative Risk (RR) and Attributable Fraction (AR%) with 95% CI and p-values.</p></div></div><div class="bg-slate-800/40 rounded-xl border border-slate-700 p-4 text-sm space-y-2"><p class="font-semibold text-sky-400 flex items-center gap-2">📡 Data sources & acknowledgments</p><p class="text-slate-300 text-xs leading-relaxed">Respiratory infection data obtained from <span class="text-emerald-400 font-medium">SIVIC server</span> (Generalitat de Catalunya).<br>Air pollution data obtained from <span class="text-emerald-400 font-medium">XPVCA server</span> (Generalitat de Catalunya).<br>Meteorological data obtained from <span class="text-emerald-400 font-medium">Meteocat</span> (Generalitat de Catalunya).</p><div class="border-t border-slate-700/60 my-2"></div><p class="text-slate-300 text-xs"><span class="font-semibold text-white">👨‍⚕️ Author:</span> Dr. Francisco Pérez Garcia — Head of Technology at Pompeu Fabra High School and Professor of Pharmacology at University of Barcelona.</p></div></div><div class="bg-slate-800 px-4 sm:px-6 py-3 sm:py-4 flex justify-end border-t border-slate-700"><button id="closeModalFooterBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-5 py-2 rounded-xl transition-all text-sm sm:text-base">Got it</button></div></div></div><div class="py-6 sm:py-8"><div class="bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl p-5 sm:p-8 mb-6 sm:mb-8"><div class="flex flex-col gap-6"><div><h2 class="text-xl sm:text-2xl font-semibold mb-4">📍 Select data source</h2><div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4"><select id="citySelector" class="bg-slate-800 text-base sm:text-lg rounded-2xl px-4 py-3 sm:py-4 border border-slate-600 text-white w-full sm:max-w-sm focus:ring-2 focus:ring-emerald-500 outline-none transition-all"><option value="" selected disabled>— Select a city or upload file —</option><option value="Elprat(sagnier).csv">🏢 El Prat de Llobregat (Sagnier)</option><option value="Gava.csv">🏙️ Gavà </option><option value="Elprat(jardinsdelapau).csv">🏢 El Prat de Llobregat (Jardins de la Pau)</option><option value="Hospitaletdellobregat.csv">🏙️ L'Hospitalet de Llobregat</option><option value="Martorell.csv">🏢 Martorell</option><option value="Santandreudelabarca.csv">🏙️ Sant Andreu de la Barca</option><option value="Santvicencdelshorts.csv">🏢 Sant Vicenç dels Horts</option><option value="Viladecans.csv">🏙️ Viladecans</option><option value="palleja.csv">🏢 Palleja</option><option value="custom">📁 Upload custom file...</option></select><span class="text-slate-500 font-medium text-center sm:text-left">or</span><div class="w-full sm:w-auto"><label for="csvInput" class="cursor-pointer bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/50 transition-all px-6 sm:px-8 py-3 sm:py-4 rounded-2xl text-emerald-400 font-semibold flex items-center justify-center gap-2 text-base sm:text-lg w-full sm:w-auto">📂 Browse</label><input type="file" id="csvInput" accept=".csv" class="hidden"></div></div><div class="mt-5 text-xs sm:text-sm bg-slate-800 rounded-2xl p-3 sm:p-4 inline-block w-full sm:w-auto"><strong>Required columns:</strong> <span class="font-mono text-emerald-400">date</span>, <span class="font-mono text-emerald-400">incidencia_1000</span><br><strong>Optional:</strong> pm2.5, pm10, no2, nox, o3, so2</div></div><div id="fileStatus" class="hidden mt-2 text-emerald-400 font-medium bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 text-sm"></div><div id="errorStatus" class="hidden mt-2 text-red-400 font-medium bg-red-500/10 p-3 rounded-xl border border-red-500/20 text-sm"></div><div id="columnsDetected" class="hidden mt-2 text-xs bg-slate-800 rounded-2xl p-3 border border-slate-700 break-words"></div></div></div><div id="dashboard" class="hidden space-y-6 sm:space-y-8"><div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6"><div class="bg-slate-900 border border-slate-700 rounded-2xl p-4 sm:p-6"><p class="text-xs uppercase text-slate-400">Days analyzed</p><p id="totalDays" class="text-3xl sm:text-5xl font-semibold text-white mt-1 sm:mt-2">0</p></div><div class="bg-slate-900 border border-slate-700 rounded-2xl p-4 sm:p-6"><p class="text-xs uppercase text-slate-400">Mean incidence</p><p id="avgIncidence" class="text-3xl sm:text-5xl font-semibold text-white mt-1 sm:mt-2">0</p></div><div class="bg-slate-900 border border-slate-700 rounded-2xl p-4 sm:p-6 flex flex-col justify-between"><div><p class="text-xs uppercase text-slate-400">Strongest corr (lag 0)</p><p id="strongestCorr" class="text-3xl sm:text-4xl font-semibold text-white">—</p></div><div id="corrPollutant" class="text-emerald-400 text-xs sm:text-sm font-medium mt-1"></div></div><div class="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 sm:p-6 flex items-center"><div class="flex-1"><div class="flex items-center gap-2 text-red-400"><span class="alert-dot inline-block w-2 h-2 sm:w-3 sm:h-3 bg-red-400 rounded-full"></span><span class="font-semibold text-sm sm:text-base">Peaks detected</span></div><p id="peakCount" class="text-3xl sm:text-5xl font-semibold text-red-400 mt-1">0</p></div></div></div><div><h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">🌫️ Pollutant Averages & WHO Exceedances</h3><div id="pollutantsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div></div><div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 mt-8"><div class="lg:col-span-8 bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl p-5 sm:p-8"><div class="flex flex-col sm:flex-row justify-between items-start sm:items-baseline gap-3 mb-4 sm:mb-6"><h3 class="text-xl sm:text-2xl font-semibold">📅 Temporal trend – Incidence</h3><select id="timeFilter" class="bg-slate-800 text-sm rounded-2xl px-3 py-2 border border-slate-600 outline-none w-full sm:w-auto"><option value="all">Full period</option><option value="2020-2025">2020-2025</option><option value="2012-2019">2012-2019</option></select></div><div class="chart-container"><canvas id="incidenceTrendChart"></canvas></div></div><div class="lg:col-span-4 bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl p-5 sm:p-8"><h3 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">🌫️ Detected pollutants</h3><div class="chart-container"><canvas id="pollutantsTrendChart"></canvas></div></div><div class="lg:col-span-12 bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl p-5 sm:p-8"><div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6"><h3 class="text-xl sm:text-2xl font-semibold">🌫️ Pollution ↔ Incidence (lagged impact)</h3><div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto"><select id="scatterPollutant" class="bg-slate-800 text-sm rounded-2xl px-4 py-2 outline-none w-full sm:w-32"></select><select id="lagSelector" class="bg-slate-800 text-sm rounded-2xl px-4 py-2 outline-none w-full sm:w-40"><option value="0">Lag 0 days</option><option value="1">Lag 1 day</option><option value="2">Lag 2 days</option><option value="3">Lag 3 days</option><option value="4">Lag 4 days</option><option value="5">Lag 5 days</option><option value="6">Lag 6 days</option><option value="7">Lag 7 days</option></select></div></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><div><div class="chart-container"><canvas id="scatterChart"></canvas></div><div id="scatterInfo" class="mt-3 text-center text-xs sm:text-sm text-emerald-400 font-medium"></div></div><div><div class="chart-container"><canvas id="correlationBarChart"></canvas></div></div></div></div><div class="lg:col-span-7 bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl p-5 sm:p-8"><h3 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">📅 Seasonal trends (monthly average)</h3><div class="chart-container"><canvas id="monthlyTrendChart"></canvas></div></div><div class="lg:col-span-5 bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl p-5 sm:p-8"><h3 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">⚠️ Peak detection</h3><div class="overflow-x-auto rounded-xl border border-slate-700"><table id="peaksTable" class="w-full text-xs sm:text-sm min-w-[500px]"><thead class="sticky top-0 bg-slate-800"><tr class="text-slate-400 text-xs"><th class="px-3 sm:px-6 py-3 text-left">Date</th><th class="px-3 sm:px-6 py-3 text-left">Incidence</th><th class="px-3 sm:px-6 py-3 text-left">PM₂.₅</th><th class="px-3 sm:px-6 py-3 text-left">NO₂</th><th class="px-3 sm:px-6 py-3 text-left">O₃</th><th class="px-3 sm:px-6 py-3 text-left">Alert</th></tr></thead><tbody class="divide-y divide-slate-700"></tbody></table></div></div></div></div></div></div>
-  <script>    let rawData = [];    let filteredData = [];    let availablePollutants = [];    let incidenceChart = null;    let pollutantsChart = null;    let scatterChart = null;    let corrChart = null;    let monthlyChart = null;
-    // Control de menús y desplegables    function toggleDropdown(id) {      const element = document.getElementById(id);      const allDropdowns = document.querySelectorAll('#menu .relative div');      allDropdowns.forEach(dd => { if (dd.id !== id) dd.classList.add('hidden'); });      if (element) element.classList.toggle('hidden');    }    document.getElementById('menuBtn').addEventListener('click', () => {      document.getElementById('mobileMenu').classList.toggle('hidden');    });    window.onclick = function(event) {      if (!event.target.matches('button')) {        document.querySelectorAll('#menu .relative div').forEach(dd => dd.classList.add('hidden'));      }    }
-    // Modales    const modal = document.getElementById('howItWorksModal');    document.getElementById('howItWorksBtn').onclick = () => modal.classList.remove('hidden');    document.getElementById('closeModalBtn').onclick = () => modal.classList.add('hidden');    document.getElementById('closeModalFooterBtn').onclick = () => modal.classList.add('hidden');
 
-    // Normalizadores y cálculos matemáticos    function normalizeHeader(h) {      return String(h || '').toLowerCase().trim().replace(/\s+/g, '_').replace(/\./g, '_').replace(/-+/g, '_');    }
-    function toNumber(v) {      if (v === '' || v === null || v === undefined) return null;      if (typeof v === 'number') return Number.isFinite(v) ? v : null;      const s = String(v).trim().replace(',', '.');      if (s === '' || s.toUpperCase() === 'NA' || s.toUpperCase() === 'N/A' || s.toUpperCase() === 'NULL') return null;      const n = Number(s);      return Number.isFinite(n) ? n : null;    }
-    function safeMean(values) {      const nums = values.filter(v => v != null && Number.isFinite(v));      if (!nums.length) return null;      return nums.reduce((a, b) => a + b, 0) / nums.length;    }    function safeVar(values) {      const nums = values.filter(v => v != null && Number.isFinite(v));      if (nums.length < 2) return null;      const mean = safeMean(nums);      const sq = nums.reduce((a,b) => a + (b-mean)**2, 0);      return sq / (nums.length - 1);    }    function safeStd(values) {      const v = safeVar(values);      return v != null ? Math.sqrt(v) : null;    }
-    function cleanLabel(name) {      return name.replace(/_/g, '.').replace(/pm2\.5|pm2_5/i, 'PM2.5').replace(/pm10/i, 'PM10').replace(/no2/i, 'NO₂').replace(/nox/i, 'NOx').replace(/o3/i, 'O₃').replace(/so2/i, 'SO₂').toUpperCase();    }
-    function showError(msg, details = '') {      const errDiv = document.getElementById('errorStatus');      if (errDiv) {        errDiv.innerHTML = `❌ <strong>Error:</strong> ${msg}${details ? `<br><span class="text-xs text-red-300">${details}</span>` : ''}`;        errDiv.classList.remove('hidden');      }      document.getElementById('fileStatus').classList.add('hidden');      document.getElementById('dashboard').classList.add('hidden');    }    function hideError() {      document.getElementById('errorStatus').classList.add('hidden');    }    function destroyChart(chart) {      if (chart) chart.destroy();    }
-    function normalizeRow(row) {      const out = {};      Object.keys(row).forEach(k => {        const key = normalizeHeader(k);        out[key] = row[k];      });      if (out['pm2.5'] !== undefined && out.pm2_5 === undefined) out.pm2_5 = out['pm2.5'];      if (out['pm25'] !== undefined && out.pm2_5 === undefined) out.pm2_5 = out['pm25'];      
-      const realIncKey = Object.keys(out).find(k => k.includes('incid'));      const realDateKey = Object.keys(out).find(k => k.includes('dat') || k.includes('time'));
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web de Ilyas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f7f7f7;
 
-      out.incidencia_1000 = toNumber(out[realIncKey] || out.incidencia_1000);      out.pm2_5 = toNumber(out.pm2_5);      out.pm10 = toNumber(out.pm10);      out.no2 = toNumber(out.no2);      out.nox = toNumber(out.nox);      out.o3 = toNumber(out.o3);      out.so2 = toNumber(out.so2);      out.date = out[realDateKey] ? String(out[realDateKey]).trim() : null;      return out;    }
+    }
+  body[data-bs-theme="dark"] {
+      background: #1f1f1f;
+    }
+  body[data-bs-theme="dark"] .navbar {
+      background: rgba(40, 40, 40, 0.6);
+    }
+  body[data-bs-theme="dark"] .card, body[data-bs-theme="dark"] video {
+      box-shadow: 0 4px 20px rgba(255,255,255,0.05);
+    }
 
-    function detectAvailablePollutants(rows) {      if (!rows.length) return [];      const keys = Object.keys(rows[0]);      return keys.filter(k => k !== 'date' && k !== 'incidencia_1000')        .filter(k => rows.some(r => r[k] != null && Number.isFinite(r[k])))        .map(k => ({ key: k, label: cleanLabel(k) }));    }
+    /* 4. Logo circular i adaptatiu */
+    .logo {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    @media (max-width: 576px) {
+      .logo {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    @media (min-width: 992px) {
+      .logo {
+        width: 50px;
+        height: 50px;
+      }
+    }
 
-    function pearsonCorrelation(arr1, arr2) {      const x = [], y = [];      for (let i = 0; i < Math.min(arr1.length, arr2.length); i++) {        const a = arr1[i], b = arr2[i];        if (a != null && b != null && Number.isFinite(a) && Number.isFinite(b)) { x.push(a); y.push(b); }      }      if (x.length < 2) return 0;      const n = x.length, sumX = x.reduce((a,b)=>a+b,0), sumY = y.reduce((a,b)=>a+b,0);      const sumXY = x.reduce((a,b,i)=>a+b*y[i],0), sumX2 = x.reduce((a,b)=>a+b*b,0), sumY2 = y.reduce((a,b)=>a+b*b,0);      const num = n*sumXY - sumX*sumY;      const den = Math.sqrt((n*sumX2 - sumX*sumX)*(n*sumY2 - sumY*sumY));      return den === 0 ? 0 : num/den;    }
-    function getWHOThreshold(key) {      const thresholds = { 'pm2_5': 15, 'pm10': 45, 'no2': 25, 'o3': 100, 'so2': 40 };      return thresholds[key] || null;    }
+    /* Contenedores para mejorar diseño */
+    .content-box {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    body[data-bs-theme="dark"] .content-box {
+      background: #2c2c2c;
+      box-shadow: 0 4px 20px rgba(255,255,255,0.05);
+    }
 
-    function populateScatterSelector() {      const select = document.getElementById('scatterPollutant');      select.innerHTML = '';      availablePollutants.forEach(p => {        const opt = document.createElement('option');        opt.value = p.key;        opt.textContent = p.label;        select.appendChild(opt);      });    }
+    /* Títulos centrados */
+    h1, h3 {
+      text-align: center;
+      margin: 20px 0;
+    }
 
-    function processAndRenderDashboard() {      if (!rawData.length) return;      hideError();
+    /* Vídeos */
+    .video-wrap video {
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border-radius: 12px;
+    }
+/* Navbar fija arriba */
+#mainNavbar {
+  background-color: #ffffff; /* fondo sólido */
+  z-index: 1030;             /* más alto que el contenido */
+  border-radius: 0;       
+  transition: background-color 0.3s ease;
+}
 
-      const timeFilter = document.getElementById('timeFilter').value;      filteredData = rawData.filter(d => {        if (!d.date) return false;        const year = parseInt(d.date.split('-')[0]);        if (isNaN(year)) return true;        if (timeFilter === '2020-2025') return year >= 2020 && year <= 2025;        if (timeFilter === '2012-2019') return year >= 2012 && year <= 2019;        return true;      });
+/* Navbar oscuro */
+body[data-bs-theme="dark"] #mainNavbar {
+  background-color: #2c2c2c;
+}
 
-      if (!filteredData.length) {        showError("No data matches the selected time range filter.");        return;      }
 
-      const incs = filteredData.map(d => d.incidencia_1000);      const meanInc = safeMean(incs);      const stdInc = safeStd(incs);      
-      document.getElementById('totalDays').innerText = filteredData.length.toLocaleString();      document.getElementById('avgIncidence').innerText = meanInc ? meanInc.toFixed(2) : '0';
+/* Texto y hamburguesa */
+#mainNavbar .navbar-brand,
+#mainNavbar .nav-link,
+#themeToggle {
+  color: #000; /* claro */
+}
 
-      let maxR = -1, bestPollutant = '—';      availablePollutants.forEach(p => {        const r = Math.abs(pearsonCorrelation(filteredData.map(d => d[p.key]), incs));        if (r > maxR) { maxR = r; bestPollutant = p.label; }      });      document.getElementById('strongestCorr').innerText = maxR !== -1 ? maxR.toFixed(2) : '—';      document.getElementById('corrPollutant').innerText = maxR !== -1 ? `Variable: ${bestPollutant}` : '';
+body[data-bs-theme="dark"] #mainNavbar .navbar-brand,
+body[data-bs-theme="dark"] #mainNavbar .nav-link,
+body[data-bs-theme="dark"] #themeToggle {
+  color: #fff; /* oscuro */
+}
 
-      const peakThreshold = meanInc + (2 * (stdInc || 0));      const peakDays = filteredData.filter(d => d.incidencia_1000 > peakThreshold);      document.getElementById('peakCount').innerText = peakDays.length;
+/* Hamburguesa */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280,0,0,0.7%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
 
-      const grid = document.getElementById('pollutantsGrid');      grid.innerHTML = '';      availablePollutants.forEach(p => {        const pVals = filteredData.map(d => d[p.key]);        const avgP = safeMean(pVals);        const threshold = getWHOThreshold(p.key);        let exceedCount = 0;        if (threshold) {          exceedCount = filteredData.filter(d => d[p.key] > threshold).length;        }
+body[data-bs-theme="dark"] .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
 
-        const card = document.createElement('div');        card.className = "bg-slate-900 border border-slate-700 rounded-2xl p-4 pollutant-card flex flex-col justify-between";        card.innerHTML = `          <div>            <div class="flex justify-between items-start">              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">${p.label}</p>              ${threshold ? `<span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700">WHO Limit: ${threshold}</span>` : ''}            </div>            <p class="text-2xl sm:text-3xl font-bold text-white mt-2">${avgP ? avgP.toFixed(1) : '—'} <span class="text-xs font-normal text-slate-400">µg/m³</span></p>          </div>          ${threshold ? `            <div class="mt-4 pt-2 border-t border-slate-800 flex items-center justify-between text-xs">              <span class="text-slate-400">Exceedances:</span>              <span class="font-bold ${exceedCount > 0 ? 'text-rose-400' : 'text-emerald-400'}">${exceedCount} days</span>            </div>          ` : ''}        `;        grid.appendChild(card);      });
+  </style>
+</head>
+<body data-bs-theme="light">
+  <!-- Navbar -->
+<nav id="mainNavbar" class="navbar navbar-expand-lg shadow" style="border-radius:16px; margin:10px; padding:8px 16px;">
+  <div class="container-fluid">
+    <!-- Logo y texto -->
+    <a class="navbar-brand d-flex align-items-center" href="https://izeddi.github.io">
+      <img src="https://izeddi.github.io/logo.png" alt="Logo" class="logo rounded-circle me-2">
+      <span class="fw-bold">Web de Ilyas</span>
+    </a>
 
-      const tbody = document.querySelector('#peaksTable tbody');      tbody.innerHTML = '';      const sortedPeaks = [...peakDays].sort((a,b) => b.incidencia_1000 - a.incidencia_1000).slice(0, 10);      sortedPeaks.forEach(p => {        const tr = document.createElement('tr');        tr.className = "hover:bg-slate-800/50 transition-colors";        tr.innerHTML = `          <td class="px-3 sm:px-6 py-3 font-medium text-white">${p.date || '—'}</td>          <td class="px-3 sm:px-6 py-3 font-bold text-rose-400">${p.incidencia_1000 ? p.incidencia_1000.toFixed(2) : '—'}</td>          <td class="px-3 sm:px-6 py-3">${p.pm2_5 ? p.pm2_5.toFixed(1) : '—'}</td>          <td class="px-3 sm:px-6 py-3">${p.no2 ? p.no2.toFixed(1) : '—'}</td>          <td class="px-3 sm:px-6 py-3">${p.o3 ? p.o3.toFixed(1) : '—'}</td>          <td class="px-3 sm:px-6 py-3"><span class="px-2 py-0.5 bg-red-500/20 text-red-400 rounded-full text-[10px] font-semibold uppercase tracking-wider border border-red-500/30">Extreme Peak</span></td>        `;        tbody.appendChild(tr);      });
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="proj1Dropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-diagram-project me-1"></i> Cerca IA vs Google Academic
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="proj1Dropdown">
+              <li><a class="dropdown-item" href="https://izeddi.github.io/cerca"><i class="fa-solid fa-seedling me-1"></i>Recerca Tomàquet</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="proj2Dropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-folder-open me-1"></i> 22 dies en 22 peus
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="proj2Dropdown">
+              <li><a class="dropdown-item" href="https://izeddi.github.io/introduccio"><i class="fa-solid fa-file-lines me-1"></i> Introducció al Projecte</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/vectors"><i class="fa-solid fa-compass me-1"></i> Calculem rumbs amb vectors</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/distancies"><i class="fa-solid fa-arrows-left-right-to-line me-1"></i> Calculem distancies amb GPS</a></li>
+            </ul>
+          </li>
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="proj3Dropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-folder-open me-1"></i> Contaminació i Salut al Baix Llobregat
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="proj3Dropdown">
+              <li><a class="dropdown-item" href="https://izeddi.github.io/contaminacio"><i class="fa-solid fa-head-side-mask me-1"></i>Contaminació i Salut Respiratòria a El Prat (Sagnier)</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/epi"><i class="fa-solid fa-head-side-mask me-1"></i>Environmental Epidemiological Analysis</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/dlnm"><i class="fa-solid fa-smog me-1"></i> Distributed Lag Non-linear Models</a></li>
+              <li><a class="dropdown-item" href="https://izeddi.github.io/epidemiologia"><i class="fa-solid fa-industry me-1"></i> Resultats de El Prat (Sagnier)</a></li>
+            </ul>
+          </li>
+        </ul>
+    <button id="themeToggle" class="ms-2 btn">
+          <i class="fa-solid fa-moon"></i>
+      </div>
+    </div>
+  </nav>
+  <!-- Contenido -->
+  <div class="container content-box">
+<div class="container content-box">
+<div align="center">
 
-      renderCharts();    }
+  <!-- Contingut -->
+  <main class="container py-5">
+    <h1 class="display-5 fw-bold mb-4">Benvinguts als Projectes</h1>
+    <p class="lead">Aquesta és una web amb menú desplegable, icones Font Awesome, mode clar i fosc, i disseny responsiu per mòbil i ordinador utilitzant Bootstrap 5.3.8. Aquest és el punt de partida per editar tot i fer projectes amb el professor Francesc Pérez.</p>
+  <p class="lead">Sóc <U>Ilyas</U> de <B>4tA ESO</B> de l'<a href="https://agora.xtec.cat/ies-pompeu-fabra-martorell/">Institut Pompeu Fabra</a>
+    <p class="lead">En aquesta web veurem projectes realitzats durant 4t d'ESO a la matèria de digitalització:
+    </p>
+    <ul>
+      <li> Projecte 1: Comparar aliments ecològics  i convencionals pel que fa al nivell de nutrients: Vitamines, Minerals, Polifenols i altres 
+        Substancies Beneficioses</li>
+      <li>Projecte 2: 22 dies en 22 peus: és una cursa nàutica on aprenem a sumar vectors, calcular distànciesen GPS i altres activitats</li>
+    </ul>
+  </main>
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Mode clar/fosc amb canvi d'icona
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('i');
 
-    function renderCharts() {      destroyChart(incidenceChart);      const sortedData = [...filteredData].sort((a, b) => new Date(a.date) - new Date(b.date));      const sample = sortedData.filter((_, i) => sortedData.length < 500 || i % Math.ceil(sortedData.length / 300) === 0);
-
-      incidenceChart = new Chart(document.getElementById('incidenceTrendChart').getContext('2d'), {        type: 'line',        data: {          labels: sample.map(d => d.date),          datasets: [{            label: 'Incidence rate / 1k hab',            data: sample.map(d => d.incidencia_1000),            borderColor: '#10b981',            backgroundColor: 'rgba(16, 185, 129, 0.05)',            fill: true,            borderWidth: 2,            tension: 0.2,            pointRadius: sample.length > 100 ? 0 : 2          }]        },        options: {          responsive: true,          maintainAspectRatio: false,          plugins: { legend: { display: false } },          scales: {            x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', maxTicksLimit: 8 } },            y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }          }        }      });
-
-      destroyChart(pollutantsChart);      const chartPollutants = availablePollutants.slice(0, 5);      pollutantsChart = new Chart(document.getElementById('pollutantsTrendChart').getContext('2d'), {        type: 'bar',        data: {          labels: chartPollutants.map(p => p.label),          datasets: [{            data: chartPollutants.map(p => safeMean(filteredData.map(d => d[p.key]))),            backgroundColor: ['#38bdf8', '#34d399', '#fbbf24', '#f87171', '#818cf8']          }]        },        options: {          responsive: true,          maintainAspectRatio: false,          plugins: { legend: { display: false } },          scales: {            x: { grid: { display: false }, ticks: { color: '#94a3b8' } },            y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }          }        }      });
-
-      destroyChart(monthlyChart);      const monthAverages = Array(12).fill(0).map(() => []);      filteredData.forEach(d => {        if (d.date) {          const m = new Date(d.date).getMonth();          if (!isNaN(m)) monthAverages[m].push(d.incidencia_1000);        }      });
-
-      monthlyChart = new Chart(document.getElementById('monthlyTrendChart').getContext('2d'), {        type: 'bar',        data: {          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],          datasets: [{            label: 'Monthly Mean Incidence',            data: monthAverages.map(arr => safeMean(arr) || 0),            backgroundColor: 'rgba(56, 189, 248, 0.6)',            borderColor: '#38bdf8',            borderWidth: 1          }]        },        options: {          responsive: true,          maintainAspectRatio: false,          plugins: { legend: { display: false } },          scales: {            x: { grid: { display: false }, ticks: { color: '#94a3b8' } },            y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }          }        }      });
-
-      updateLagCharts();    }
-
-    function updateLagCharts() {      const pollKey = document.getElementById('scatterPollutant').value;      const lag = parseInt(document.getElementById('lagSelector').value) || 0;      if (!pollKey) return;
-
-      const pairs = [];      const pollData = filteredData.map(d => d[pollKey]);      const incData = filteredData.map(d => d.incidencia_1000);
-
-      for (let i = 0; i < filteredData.length - lag; i++) {        const x = pollData[i];        const y = incData[i + lag];        if (x != null && y != null) pairs.push({ x, y });      }
-
-      destroyChart(scatterChart);      scatterChart = new Chart(document.getElementById('scatterChart').getContext('2d'), {        type: 'scatter',        data: {          datasets: [{            label: 'Days paired',            data: pairs.slice(0, 600),            backgroundColor: 'rgba(251, 191, 36, 0.6)'          }]        },        options: {          responsive: true,          maintainAspectRatio: false,          plugins: { legend: { display: false } },          scales: {            x: { title: { display: true, text: `${cleanLabel(pollKey)} (day t)`, color: '#94a3b8' }, grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } },            y: { title: { display: true, text: `Incidence (day t+${lag})`, color: '#94a3b8' }, grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }          }        }      });
-
-      const currentR = pearsonCorrelation(pairs.map(p => p.x), pairs.map(p => p.y));      document.getElementById('scatterInfo').innerText = `Pearson correlation coefficient (r) at Lag ${lag}: ${currentR.toFixed(3)}`;
-
-      destroyChart(corrChart);      const lagLabels = [];      const lagValues = [];      for (let l = 0; l <= 7; l++) {        const lX = [], lY = [];        for (let i = 0; i < filteredData.length - l; i++) {          if (pollData[i] != null && incData[i+l] != null) {            lX.push(pollData[i]); lY.push(incData[i+l]);          }        }        lagLabels.push(`Lag ${l}`);        lagValues.push(pearsonCorrelation(lX, lY));      }
-
-      corrChart = new Chart(document.getElementById('correlationBarChart').getContext('2d'), {        type: 'bar',        data: {          labels: lagLabels,          datasets: [{            label: 'Correlation (r)',            data: lagValues,            backgroundColor: 'rgba(16, 185, 129, 0.6)',            borderColor: '#10b981',            borderWidth: 1          }]        },        options: {          responsive: true,          maintainAspectRatio: false,          plugins: { title: { display: true, text: `Cross-correlation by days of delay (0-7)`, color: '#fff' }, legend: { display: false } },          scales: {            x: { ticks: { color: '#94a3b8' } },            y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }          }        }      });    }
-
-    function initDataset(data) {      if (!data || !data.length) return;      
-      rawData = data.map(normalizeRow).filter(d => d.date && d.incidencia_1000 != null);
-      if (!rawData.length) {        showError("Invalid structural records.", "Please check if your file contains 'date' and 'incidencia_1000' columns correctly.");        return;      }
-
-      availablePollutants = detectAvailablePollutants(rawData);      populateScatterSelector();      
-      document.getElementById('columnsDetected').innerHTML = `<strong>Detected Columns:</strong> ` + availablePollutants.map(p => `<span class="bg-slate-700 px-2 py-0.5 rounded text-emerald-400 mx-1 text-xs">${p.label}</span>`).join('');      document.getElementById('columnsDetected').classList.remove('hidden');      document.getElementById('dashboard').classList.remove('hidden');
-
-      processAndRenderDashboard();    }
-
-    document.getElementById('citySelector').addEventListener('change', function(e) {      const file = e.target.value;      if (!file || file === 'custom') return;      
-      document.getElementById('fileStatus').innerText = `📡 Downloading and reading ${file}...`;      document.getElementById('fileStatus').classList.remove('hidden');      hideError();
-
-      Papa.parse(file, {        download: true,        header: true,        skipEmptyLines: true,        complete: function(results) {          document.getElementById('fileStatus').innerText = `✅ Successfully loaded: ${file}`;          initDataset(results.data);        },        error: function(err) {          showError(`Could not find or load the server file "${file}".`, "Remember to upload the CSV files to the root of your GitHub repository.");        }      });    });
-
-    document.getElementById('csvInput').addEventListener('change', function(e) {      const file = e.target.files[0];      if (!file) return;      document.getElementById('citySelector').value = 'custom';      document.getElementById('fileStatus').innerText = `📂 Reading local manual file: ${file.name}`;      document.getElementById('fileStatus').classList.remove('hidden');      hideError();
-
-      Papa.parse(file, {        header: true,        skipEmptyLines: true,        complete: function(results) {          initDataset(results.data);        },        error: function(err) {          showError("Error parsing uploaded custom file layout.", err.message);        }      });    });
-
-    document.getElementById('timeFilter').addEventListener('change', processAndRenderDashboard);    document.getElementById('scatterPollutant').addEventListener('change', updateLagCharts);    document.getElementById('lagSelector').addEventListener('change', updateLagCharts);  </script></body></html>
+    themeToggle.addEventListener('click', () => {
+      if (document.body.getAttribute('data-bs-theme') === 'dark') {
+        document.body.setAttribute('data-bs-theme', 'light');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      } else {
+        document.body.setAttribute('data-bs-theme', 'dark');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      }
+    });
+  </script>
+</body>
+</html>
