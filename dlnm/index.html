@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web de Wilfredo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f7f7f7;
+
+    }
+  body[data-bs-theme="dark"] {
+      background: #1f1f1f;
+    }
+  body[data-bs-theme="dark"] .navbar {
+      background: rgba(40, 40, 40, 0.6);
+    }
+  body[data-bs-theme="dark"] .card, body[data-bs-theme="dark"] video {
+      box-shadow: 0 4px 20px rgba(255,255,255,0.05);
+    }
+
+    /* 4. Logo circular i adaptatiu */
+    .logo {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    @media (max-width: 576px) {
+      .logo {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    @media (min-width: 992px) {
+      .logo {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    /* Contenedores para mejorar diseño */
+    .content-box {
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    body[data-bs-theme="dark"] .content-box {
+      background: #2c2c2c;
+      box-shadow: 0 4px 20px rgba(255,255,255,0.05);
+    }
+
+    /* Títulos centrados */
+    h1, h3 {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    /* Vídeos */
+    .video-wrap video {
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border-radius: 12px;
+    }
+/* Navbar fija arriba */
+#mainNavbar {
+  background-color: #ffffff; /* fondo sólido */
+  z-index: 1030;             /* más alto que el contenido */
+  border-radius: 0;       
+  transition: background-color 0.3s ease;
+}
+
+/* Navbar oscuro */
+body[data-bs-theme="dark"] #mainNavbar {
+  background-color: #2c2c2c;
+}
+
+
+/* Texto y hamburguesa */
+#mainNavbar .navbar-brand,
+#mainNavbar .nav-link,
+#themeToggle {
+  color: #000; /* claro */
+}
+
+body[data-bs-theme="dark"] #mainNavbar .navbar-brand,
+body[data-bs-theme="dark"] #mainNavbar .nav-link,
+body[data-bs-theme="dark"] #themeToggle {
+  color: #fff; /* oscuro */
+}
+
+/* Hamburguesa */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280,0,0,0.7%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+body[data-bs-theme="dark"] .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+  </style>
+</head>
+<body data-bs-theme="light">
+  <!-- Navbar -->
+<nav id="mainNavbar" class="navbar navbar-expand-lg shadow" style="border-radius:16px; margin:10px; padding:8px 16px;">
+  <div class="container-fluid">
+    <!-- Logo y texto -->
+    <a class="navbar-brand d-flex align-items-center" href="https://izeddi.github.io">
+      <img src="https://izeddi.github.io/logo.png" alt="Logo" class="logo rounded-circle me-2">
+      <span class="fw-bold">Web de Wilfredo</span>
+    </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="proj1Dropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-diagram-project me-1"></i> Cerca IA vs Google Academic
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="proj1Dropdown">
+              <li><a class="dropdown-item" href="https://wospina5.github.io/cerca"><i class="fa-solid fa-seedling me-1"></i>Recerca Tomàquet</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="proj2Dropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-folder-open me-1"></i> 22 dies en 22 peus
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="proj2Dropdown">
+              <li><a class="dropdown-item" href="https://wospina5.github.io/introduccio"><i class="fa-solid fa-file-lines me-1"></i> Introducció al Projecte</a></li>
+              <li><a class="dropdown-item" href="https://wospina5.github.io/vectors"><i class="fa-solid fa-compass me-1"></i> Calculem rumbs amb vectors</a></li>
+              <li><a class="dropdown-item" href="https://wospina5.github.io/distancies"><i class="fa-solid fa-arrows-left-right-to-line me-1"></i> Calculem distancies amb GPS</a></li>
+            </ul>
+          </li>
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="proj3Dropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-folder-open me-1"></i> Contaminació i Salut al Baix Llobregat
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="proj3Dropdown">
+              <li><a class="dropdown-item" href="https://wospina5.github.io/contaminacio"><i class="fa-solid fa-head-side-mask me-1"></i>Contaminació i Salut Respiratòria a L'Eixample</a></li>
+              <li><a class="dropdown-item" href="https://wospina5.github.io/epi"><i class="fa-solid fa-head-side-mask me-1"></i>Environmental Epidemiological Analysis</a></li>
+              <li><a class="dropdown-item" href="https://wospina5.github.io/dlnm"><i class="fa-solid fa-smog me-1"></i> Distributed Lag Non-linear Models</a></li>
+              <li><a class="dropdown-item" href="https://wospina5.github.io/epidemiologia"><i class="fa-solid fa-industry me-1"></i> Resultats de L'Eixample</a></li>
+            </ul>
+          </li>
+        </ul>
+    <button id="themeToggle" class="ms-2 btn">
+          <i class="fa-solid fa-moon"></i>
+      </div>
+    </div>
+  </nav>
+  <!-- Contenido -->
+<div class="container content-box">
+<div align="center">
+  <h1 class="display-5 fw-bold mb-4">Air Pollution, Meteorological Conditions and Respiratory Infections in Baix Llobregat. A 14-Year Spatiotemporal Analysis</h1>
+   </p>  
+   </div>
+
+  <p>The objectives of this research are:</p>
+  <ul>
+    <li> Wilfredo Ospina im studying all data from L'Eixample a city located in Barcelona. In this county we are using data from <a href="https://mediambient.gencat.cat/es/05_ambits_dactuacio/atmosfera/qualitat_de_laire/avaluacio/xarxa_de_vigilancia_i_previsio_de_la_contaminacio_atmosferica_xvpca/">Air Pollution Prevention and Monitoring Network (XPVCA in catalan)</a> corresponding to hourly data of air pollutants from year 2011 to 2025. Data included: Benzene (C<sub>6</sub>H<sub>6</sub>), Nitrogen Oxide (NO), Nitrogen Dioxide (NO<sub>2</sub>), Nitrogen Oxides (NO<sub>X</sub>) Ozone (O<sub>3</sub>), Sulphur Dioxide (SO<sub>2</sub>) and Carbon Monoxide (CO) </li>
+    <p></p>
+    <li> Meteorological data is available from <a href="https://www.meteo.cat/observacions/xema"> MeteoCat (Meteorological data Server of Catalonia)</a>, so we choose the same meteorological station in L'Eixample. The data structure is based on semi-hourly data that is, data every 30 minutes from 2011. Data included: temperature, relative humidity, pressure, wind direction, wind speed, solar irradiance.</li></ul>
+    <p></p>
+    <ul><li> Respiratory Infection data are collected from Catalonia Information System for Infection Surveillance <a href="https://sivic.salut.gencat.cat">(SIVIC)</a> using data from region 75, that is Barcelona Metropolitan South Region, and 182 is the identificator of the Primary care center from El Prat (Sagnier).
+      <p></p>
+<div align="center" data-aos="fade-up">
+<h1>Calendar Plot</h1>
+   </p>  
+  <img class="img-fluid rounded shadow-sm my-3" src="calendarplotno2.png">
+  <p>The Calendar Plot provides a daily record of air quality throughout the year 2025. Each square represents a specific day, and the color indicates the concentration of NO<sub>2</sub></p>
+   <h2>How to read the colors</h2>
+<ul><li>Yellow/Light Tones: These represent clean air. These days are usually windy or rainy, which helps clear the sky.</li>
+
+<li>Orange/Red Tones: these represent higher pollution. The darker the red, the more pollutants were in the air. On these days, people with breathing difficulties might feel more tired or uncomfortable.</li></ul>
+     <p></p>   
+   <h2>The Winter Trap</h2> 
+   <ul><li>Took at January and February. You will see many dark orange and red squares. In winter, the ground is cold, and a layer of heavy air sits on top of the city.</li>
+   <p></p>
+    <h2>The Summer Break</h2> 
+   <li>Look at August. Most of the squares are light yellow. This is because many people leave the city for vacation, so there are fewer cars. Also, the summer heat creates currents that push pollution high up into the sky and away from us.</li>
+  <p></p>
+  <h2>The Weekend</h2> 
+    <li> If you look closely at the rows, most of the weekends are often lighter than the weekdays. This shows that when schools and offices are closed, the air improves almost immediately.</li></ul>
+  <p></p> </div>
+   <div align="center" data-aos="fade-up">
+
+<h1>TimeVariation</h1>
+   </p>  
+  <img class="img-fluid rounded shadow-sm my-3" src="timevariation.png">
+  <p>Air pollution is not constant, it rises and falls based on our daily routines. The first chart shows that the air follows a "work schedule."</p>
+  <P></P>
+<h2>Rush Hour Peaks</h2>
+<p>There are two times during the day when harmful gases (like NO<sub>X</sub>, which comes from vehicle exhausts) reach their highest levels</p>
+  <ul><li>8:00 AM: When people drive to work or drop children off at school.</li>
+  <li>8:00 PM: When people return home.</li>
+  <p>hese blue peaks on the chart represent the "fingerprint" left by our morning and evening commutes.</p>
+  <p></p>
+  <h2>Monthly Pattern</h2>
+
+<p>The Winter Rise: The blue and green lines (traffic gases) are much higher in January and December. During these months, the air is cold and still, which prevents pollution from blowing away.</p>
+ <p>The Summer Rise: The purple line (Ozone) is highest in July and August. The more sun and heat there is, the more Ozone is produced in the atmosphere.</p>
+  <p></p>
+<h2>The Sun and Ozone (O<sub>3</sub>)</h2>
+<p>Ozone is a unique pollutant. It does not come directly out of a car. Instead, it is created when sunlight hits other pollutants already in the air. This is why the purple line on the chart rises at midday when the sun is strongest and drops at night.</p>
+
+  <p></p>
+  <h2>The Weekend Break</h2> 
+<p>If you compare different days of the week, Sunday is the cleanest day. Because there are fewer delivery trucks and fewer people commuting, the air gets a chance to clear up. This is usually the best time for outdoor activities.</p>
+  <p></p>
+</div>
+     <div align="center" data-aos="fade-up">
+ 
+<h1>TrendLevel</h1>
+   </p>  
+  <img class="img-fluid rounded shadow-sm my-3" src="trendlevelno2.png">
+  <p>Trendlevel is a very large table that shows the history of Nitrogen Dioxide (NO<sub>2</sub>) every single day from 2011 until 2025. This is the best way to see if our city is actually getting cleaner over time.
+</p>
+  <P></P>
+<h2>How to Read the "Heat"</h2>
+<ul><li>
+Vertical Axis: This shows the hours of the day (0 to 24).</li>
+
+<li>Horizontal Axis: This shows the months (January to December).</li>
+
+<li>Colors: Dark red and orange mean "High Pollution." Blue and green mean "Clean Ai.
+</li>
+<p></p>
+<h2>The Improvement</h2>
+<li>A Cleaner Decade: Look at the top rows (2011–2014). You will see large blocks of dark orange and red, especially during the morning and evening hours. This was a period of high pollution.
+</li>
+<li>The Shift to Blue: Look at the bottom rows (2023–2025). The red areas are much smaller and lighter. There is a lot more blue and green across the whole year. This visual change proves that new technology, electric vehicles, and environmental rules in El Prat are working.</li>
+<p></p>
+<h2>The Constant Problem</h2>
+<li>Even in the most recent years, you can still see yellow and orange stripes at the top and bottom of the daily cycle (8:00 AM and 8:00 PM). This reminds us that while the air is better, the "rush hour" traffic is still the biggest challenge we face.</li> 
+<p></p>
+<h2>The White Squares</h2>
+<li>You may notice some completely white squares in the graphic. These are not zero pollution days. Instead, they represent moments when the measuring station stopped working. Like any machine, sensors can fail due to power cuts, maintenance, or extreme weather, leaving a gap in the data.
+</li>
+</ul>
+<p></p>
+     </div>
+     <div align="center" data-aos="fade-up">
+    <h1>Daily Averages</h1>
+   </p>  
+  <img class="img-fluid rounded shadow-sm my-3" src="mitjanesdiaries.png">
+  <p>This graphic shows the daily averages of the main air pollutants. Each colored line represents a different substance measured in micrograms per cubic meter.
+</p>
+  <P></P>
+<h2>Pollutants</h2>
+<ul><li>
+The purple line (NO<sub>x</sub> - Nitrogen Oxides): Is the line with the most movement and the one that reaches the highest peaks. These gases come mainly from car exhausts and industrial activity.
+<li> The brown line (O<sub>3</sub> - Ozone): It rises in summer and falls in winter. Unlike others, ozone does not come directly from an exhaust, it is formed when other pollutants are exposed to the sun. That's why it always rises when it's hotter. </li>
+<li>The lower lines (SO<sub>2</sub>, CO, C<sub>6</sub>H<sub>6</sub>): substances like carbon monoxide or benzene are very close to zero. This are good news, as it indicates that certain types of industrial and old fuel pollution are under control.</li>
+<p></p>
+
+<h1>Overcomings</h1>
+<li>El Prat (Sagnier): Has never exceeded 200 micrograms per cubic meter.</li>
+
+<li>According to European regulations, this level can only be exceeded 18 times.</li>
+
+<li>At El Prat (Sagnier), the level has been between 125 and 200 micrograms per cubic meter only 6 times.</li>
+
+<li>Does it comply with the law?
+
+European law states that in one year the maximum number of times that 200 micrograms per cubic meter of nitrogen dioxide (NO<sub>2</sub>) can be exceeded is 18.
+We have observed that it has never reached 200 micrograms per cubic meter, but it has been between 125 and 200 micrograms per cubic meter only 6 times in 14 years.</li>
+
+<li>In 2025, it recorded 0 hours.
+In 2012, it exceeded the limit 5 times.</li>
+
+<li>The pollutant CO has not exceeded the annual limit in any of the 15 years analyzed (0% of the period).</li>
+
+<li>Total days exceeding the limit: 0</li>
+
+<li>Total hours exceeding the limit: 0</li>
+
+<li>The pollutant NO<sub>2</sub> has not exceeded the annual limit in any of the 15 years analyzed (0% of the period).</li>
+
+<li>Total days exceeding the limit: 0</li>
+
+<li>Total hours exceeding the limit: 0</li>
+
+<li>The pollutant O<sub>3</sub> has not exceeded the annual limit in any of the 15 years analyzed (0% of the period).</li>
+
+<li>Total days exceeding the limit: 0</li>
+
+<li>Total hours exceeding the limit: 798</li>
+
+<li>The pollutant SO<sub>2</sub> has not exceeded the annual limit in any of the 15 years analyzed (0% of the period).</li>
+
+<li>Total days exceeding the limit: 0</li>
+
+<li>Total hours exceeding the limit: 0</li>
+
+<li>The most problematic pollutant during the period 2011–2025 has been CO, with 0 years exceeding the annual limit.</li>
+
+<li>The most critical year of the period was 2011, with 0 pollutants exceeding the annual limit.</li>
+<li>The analysis of air pollution in El Prat (Sagnier) during the period 2011–2025 
+  shows that air quality has presented recurring breaches of European legal limits, especially for pollutants associated with traffic and industrial activities.</li> <p></p>
+</ul></div>
+    <div align="center" data-aos="fade-up">
+  <h1>Sivic</h1>
+   </p>  
+  <img class="img-fluid rounded shadow-sm my-3" src="sivic.png">
+  <p>This graphic from SIVIC shows how health issues in El Prat change over time. We can look at specific diseases, age groups, sex...
+</p>
+  <p></p>
+  <h2>Covid-19</h2>
+
+ <li>The majority of the medical cases recorded from 2020 onwards are due to COVID-19. This explains the spikes that break the normal rhythm of previous years.</li>
+ <p></p>
+<h2>Specific Age Groups Are Affected More</h2>
+<ul><li>
+The impact of these diseases is not the same for everyone. Respiratory illnesses often target a specific age group.</li>
+
+<li>Children and the Old People: These two groups are the most vulnerable. Children have developing lungs. The old people often have weaker immune systems.</li>
+<p></p>
+<h2>No Significant Difference Between Men and Women </h2>
+<li> When analyzing the data by sex, the results are very similar for both men and women.</li>
+<li>The lower lines (SO<sub>2</sub>, CO, C<sub>6</sub>H<sub>6</sub>): substances like carbon monoxide or benzene are very close to zero. This are good news, as it indicates that certain types of industrial and old fuel pollution are under control.</li>
+<p></p>
+
+  <div align="center" data-aos="fade-up">
+  <h1>What is the Origin of Air Pollution in El Prat (Sagnier)</h1>
+     <img class="img-fluid rounded shadow-sm my-3" src="pollutionrose(no2).png">
+  <p><li>To know the origin of air pollution in El Prat (Sagnier) is easy with RStudio</li></p>
+  <p></p>
+  <p><li>We only need data in columns named WS for wind speed, WD for wind direction and to choose a pollutant e.g.: NO<sub>2</sub>. These are conditions of the openair library
+  in order to create a pollution rose with the instruction: <code>pollutionRose(cityall, pollutant="no2")</code></li></p>
+  <p></p>
+  <p><li>This is a Pollution Rose. It works like a compass, showing exactly which 
+    direction the wind blows from when the air in El Prat contains high levels of Nitrogen Dioxide (NO<sub>2</sub>).</li></p>
+    <p><li>The Petals: The length of each section shows how often the wind blows from that direction.The Colors: Orange and dark red represent high pollution levels. 
+    Green and yellow represent clean air.</li></p>
+    <p><li>The Colors: Orange and dark red represent high pollution levels. Green and yellow represent clean air.</li></p>
+    <p><li>As you can see in the following image air pollution of El Prat (Sagnier) comes form Southwest area.</li></p>
+<p></p>
+    <img class="img-fluid rounded shadow-sm my-3" src="googlemaps.png">
+   </div>  
+  <p></p>  
+    
+  <div align="center" data-aos="fade-up"> 
+<h2>Polar Plot</h2>
+      <p></p>
+  <img class="img-fluid rounded shadow-sm my-3" src="polarPlot(no2).png">
+      <p></p>
+<p><li>The Polar Plot goes a step further than the previous graph. It shows how pollution changes based on two things at the same time: 
+  the direction of the wind and the speed of the wind.</li></p>
+  <p><li>Distance from the center: The closer to the center , the weaker the wind is. The further out, the stronger the wind blows.</li></p>
+  <p><li>The Colors: Purple and dark red show the highest pollution (NO<sub>2</sub>). Blue and green show clean air.</li></p>
+  <p><li>The highest pollution (dark purple) happens right in the center when the wind speed is nearly zero. When the air does not move, 
+  traffic emissions from local streets cannot escape and accumulate quickly around the station.</li></p></div>
+<p></p>
+
+  <div align="center" data-aos="fade-up"> 
+  <h2>Polar Map</h2>
+  <p></p>
+       <img class="img-fluid rounded shadow-sm my-3" src="polarMap.png">
+  <p></p>
+  <p><li>This map takes the polar plot and overlays it directly onto the real map of El Prat de Llobregat, centering it right on the Sagnier measuring station. 
+    It shows exactly which roads and infrastructures are causing the pollution.</li></p>
+  <p><li>This colored overlay sits directly over the C-31 / Autovia de Castelldefels and the Damm brewery.</li></p>
+  <p><li>It proves that when the wind blows from these directions, it carries the heavy emissions from highway traffic and industrial boilers straight to the monitoring station.</li></p>
+</div>
+<p></p>
+
+ <div align="center" data-aos="fade-up">
+     <h2>1. RR = Relative Risk </h2>
+    <p>General formula:</p>
+     <p>$$RR = \frac{I_e}{I_0} = \frac{\text{Incidence Exposed}}{\text{Incidence Unexposed}}$$</p>
+   <p>
+Days are divided based on whether NO<sub>2</sub> exceeds the WHO daily guideline value: (25μg/m<sup>3</sup>)</p>
+
+<p>High Exposure (NO<sub>2</sub> > 25μg/m<sup>3</sup>)
+Average Incidence = 1,98 cases / 1000 (3484 days)</p>
+
+<p>Low Exposure (NO<sub>2</sub> ≤ 25μg/m<sup>3</sup>) Average Incidence = 1,85 cases / 1000 (1734 days)</p>
+<p>$$RR = \frac{1,98}{1,85} \approx 1,07$$</p>
+<p>RR > 1 = 1,07 indicates a harmful effect.</p>
+     <p></p>
+    
+    <h2>2. AR = Attributable Risk</h2>
+    <p>General formula:</p>
+     <p>$$AR = I_e - I_0$$</p>
+     <p>$$AR = 1,98 - 1,85 = 0,13$$</p>
+   <p><li>Excess NO2 generates 0.13 extra cases of respiratory infections per 1,000 inhabitants.</li>
+<li>This equates to 13 extra cases of respiratory infections per 100,000 inhabitants.</li>
+<li>Context: El Prat de Llobregat has a population of 66,000.</li>
+<p>$$\frac{0,13 \text{ casos}}{1.000 \text{ hab.}} \cdot 66 = 9 \text{ cases in El Prat de Llobregat}$$</p>
+     <p></p>
+  
+  <h2>3. AR% = Attributable Risk Percentage </h2>
+    <p>General formula:</p>
+     <p>$$AR\% = \frac{RR - 1}{RR} \cdot 100$$</p>
+   <p>$$AR\% = \frac{1,07 - 1}{1,07} \cdot 100 = 6,54\%$$</p>
+   <li>6,54% of respiratory infection cases are caused by excess NO<sub>2</sub></li>
+   <p></p>
+
+   <p>NO<sub>2</sub> Exceedances:</p>
+<p>
+
+<li>Number of days with exceedances = 3,484 days </li>
+<li>Total number of analyzed days = 5,191 days</li>
+<p>$$\frac{3.184}{5.191} = 0,613 \rightarrow 61,3\%$$</p> 
+<p>On 61.3 % of the days, the maximum recommended levels of 25μg/m<sup>3</sup>
+by the World Health
+
+Organization are exceeded. We have calculated with R the daily limit of 40 μg/m<sup>3</sup> 
+(EU legal
+limit) and it has given us $$\frac{5}{24} = 0,21 $$ 0,21 days in 15 years (2011-2025) The EU legal limit is
+
+exceeded. European law says that it can be exceeded 18 times every year.</p>
+<p></p>
+<h2>Poisson Model</h2>
+
+<p>$$P(X = k) = \frac{\lambda^k \cdot e^{-\lambda}}{k!}$$</p>
+
+<p>Definition of variables:</p>
+<li>k = no of observed cases</li>
+ <li>λ = Average Incidences</li>
+<li>λ 0= 1,85 (low)</li>
+<li>λ 1= 1,98 (high)</li>
+<p></p>
+<p>$$P(X = 2) = \frac{1,85^2 \cdot e^{-1,85}}{2!} = 0,269 \rightarrow 26,9\%$$ probability of 2 cases if pollution ↓</p>
+<p>$$P(X = 2) = \frac{1,98^2 \cdot e^{-1,98}}{2!} = 0,271 \rightarrow 27,1\%$$ probability of 2 cases if pollution ↑ </p>
+
+<p>If NO<sub>2</sub> pollution is low, there is a 26.9 % probability of having 2 cases per 1000 inhabitants.</p>
+<p>If NO<sub>2</sub> pollution is high, there is a 27.1 % probability of having 2 cases per 1000
+inhabitants.</p>
+<p>P = Probability of 2 cases of respiratory infections per 1000 inhabitants based on a mathematical
+Poisson model that has taken into account the daily data of 15 years (2011-2025) of infections and
+air pollutants (NO<sub>2</sub> , O<sub>3</sub> , etc.) at the 3 primary care centers in El Prat de Llobregat. We know that
+the data has been obtained from the XPVCA database (Air Pollution Prevention and Monitoring
+Network) and SIVIC (Information System for Surveillance in Catalonia).</p>
+     <p>Therefore, the probability of 2 respiratory infections per every 1,000 inhabitants of El Prat is 26.9%
+if NO2 levels are low, meaning below the WHO limit of (25μg/m
+3
+) on the other hand, if the NO<sub>2</sub>
+
+pollution level is high, above the WHO, we will have a 27.1% probability.</p>
+<p>High exposure: 3184 days</p>
+<p>$$\frac{3.184}{5.191} = 0,613 \rightarrow 61,3\%$$</p>
+<p>Low exposure: 1734 days</p>
+<p>$$\frac{1.734}{5.191} = 0,334 \rightarrow 33,4\%$$</p>
+<p>% of days with low and high exposure.</p>
+<p></p>
+<h2>Total Probability / Bayes' Theorem</h2>
+<p>$$P(X = 2) = (0,613 \cdot 0,271) + (0,334 \cdot 0,269) = 0,256 \rightarrow 25,6\%$$</p>
+<p>The director tells us that an incidence of 1% is worrying.</p>
+
+     <p></p>
+
+  <div align="center" data-aos="fade-up">
+
+  <h2>DLNM (Distributed Lag Non-linear Model) </h2>
+      <p></p>
+<p>This mathematical model was created by Gasparrini et al. (2010).
+Pollutants have a lag time with respect to health; that is, there is not always an immediate effect. In
+many cases, they can cause an effect later on.<p>
+<p>These models are non-linear because, if they were linear, it would mean that an increase in pollution
+causes a proportional increase in respiratory cases. Although this might seem logical, it is not
+exactly how it works. An increase of 5μg/m<sup>3</sup> of NO<sub>2</sub> does not have the same impact if it
+increases from 5 to 10 as it does if it increases from 40 to 45. In other words, it is a curve rather
+than a straight line.</p>
+<p>The delays are called LAG and can be equal to 0 (no delay) or any number between 0 and 14. If the
+LAG is equal to 14, it means that two weeks pass between the peak of the pollutant and the peak of
+the health problems.</p>
+    <p></p>
+    <h3>Reference</h3>
+    <p>
+Gasparrini, A. ; Armstrong, B. ; Kenward, M.G. (2010). Distributed lag non-linear models. Stat. Med. 29 (21):2224-34.
+DOI: https://doi.org/10.1002/sim.3940</p>
+  <p></p>
+     <img class="img-fluid rounded shadow-sm my-3" src="dlnm.png">
+     <p></p>
+<p>This graph shows a 3D Response Surface generated using an advanced statistical model called DLNM (Distributed Lag Non-linear Models). Its objective is to show how NO<sub>2</sub>pollution levels relate to the risk of suffering respiratory diseases over time.
+The graph is read by analyzing three axes simultaneously:</p>
+    <li>NO<sub>2</sub> Axis (Bottom left): Shows the concentration of the pollutant. Values range from low levels (near 20) to high levels (above 60μg/m<sup>3</sup>).</li>
+    <li>Lag Axis (Bottom right): Represents the "lag" or the number of days that pass from when a person breathes the polluted air until the illness manifests (from 0 to 14 days).</li>
+    <li>Relative Risk Axis (Vertical): Indicates by how much the probability of getting sick is multiplied. The reference value is 1.00 (normal risk). Anything above 1.00 signifies an increased risk, and anything below 1.00 indicates a risk lower than average.</li>
+<p></p>
+<h3>What is observed in the shape of the black surface?</h3>
+    <li>Delayed and Cumulative Effect: Contrary to what it might seem, the risk is not immediate. At Lag 0 (front right) the risk is low, but as NO<sub>2</sub> rises toward 60 and we move toward higher lag days (Lag between 5 and 14 days, in the background), the surface rises significantly, exceeding 1.05.</li>
+    <li>Upward Slope: This upward tilt statistically demonstrates that severe pollution acts in the medium term; the health impact on citizens escalates, and the true peak of hospital admissions appears days after the exposure.</li>
+
+  <p></p>
+  <div align="center" data-aos="fade-up">
+  <h2>Conclusion</h2>
+<p>Overall, the graphics show that nitrogen dioxide (NO<sub>2</sub>) levels in El Prat (Sagnier) change depending on the time of day, month, and year, with higher concentrations usually appearing during peak activity hours, likely related to traffic and urban activity.
+
+In 2025, most days present low or moderate pollution levels, meaning that air quality is generally acceptable, although some days show higher concentrations.
+
+In addition, we analyzed health data from the SIVIC system and compared it with the pollution levels. This comparison suggests that air pollution may be related to certain respiratory diseases, since higher pollution periods can coincide with increases in health incidents.
+
+That's why, the study indicates that air quality can have an impact on public health, highlighting the importance of monitoring pollution levels and reducing emissions to protect people’s health.
+To understand this impact, our Pollution Rose, Polar Plot, and Polar Map reveal that the highest 
+  NO<sub>2</sub> concentrations are coming from the West and Southwest, aligning directly with 
+  the C-31 / Autovia de Castelldefels and extending toward the Barcelona-El Prat Airport. 
+  Furthermore, a significant localized source is identified to the North/Northwest, right over the Damm brewery, where industrial boilers, 
+  cogeneration plants, and heavy distribution truck traffic feed directly into the urban wind path. According to weather data from Meteocat, while eastern sea breezes keep the city clean, winter inversions and calm, windless conditions trap all these highway, industrial, and urban emissions right at ground level, creating the high-pollution seen at the center of the 
+  Polar Plot where wind speed is nearly zero.
+  This trapped pollution is a direct trigger for the respiratory medical cases recorded by SIVIC, which show that from 2020 onwards, the majority of cases are linked to COVID-19 and winter flues; although these are viral infections, poor air quality inflames the lungs and weakens the body's natural defenses. This biological vulnerability is rigorously confirmed by our DLNM (Distributed Lag Non-linear Model) 3D surface, which proves that the health impact of high NO2 concentrations (above 60μg/m<sup>3</sup> ) is not just immediate, but cumulative, showing a significant delayed effect where the relative risk of respiratory admissions escalates and peaks between 5 and 14 days after exposure. Finally, the health data shows no noticeable difference between men and women because air is a shared resource, but it highlights a high vulnerability among specific age groups, showing that children and the elderly are the primary victims when these environmental, industrial, and delayed biological factors align. </p>
+<p></p>
+  </ul>
+<button id="backToTop" class="btn btn-primary" 
+style="position: fixed; bottom: 25px; right: 25px; display:none; border-radius: 50%;">
+<i class="fa-solid fa-arrow-up"></i>
+</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+ 
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('i');
+
+    themeToggle.addEventListener('click', () => {
+      if (document.body.getAttribute('data-bs-theme') === 'dark') {
+        document.body.setAttribute('data-bs-theme', 'light');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      } else {
+        document.body.setAttribute('data-bs-theme', 'dark');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      }
+    });
+  </script>
+    <script>
+const btn = document.getElementById("backToTop");
+
+window.addEventListener("scroll", () => {
+  btn.style.display = window.scrollY > 200 ? "block" : "none";
+});
+
+btn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000, // duración de la animación
+    once: true     
+  });
+</script>
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</body>
+</html>
