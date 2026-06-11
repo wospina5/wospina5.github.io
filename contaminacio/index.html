@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -13,7 +12,6 @@
     body {
       font-family: 'Poppins', sans-serif;
       background: #f7f7f7;
-
     }
   body[data-bs-theme="dark"] {
       background: #1f1f1f;
@@ -110,10 +108,8 @@ body[data-bs-theme="dark"] .navbar-toggler-icon {
   </style>
 </head>
 <body data-bs-theme="light">
-  <!-- Navbar -->
-<nav id="mainNavbar" class="navbar navbar-expand-lg shadow" style="border-radius:16px; margin:10px; padding:8px 16px;">
+  <nav id="mainNavbar" class="navbar navbar-expand-lg shadow" style="border-radius:16px; margin:10px; padding:8px 16px;">
   <div class="container-fluid">
-    <!-- Logo y texto -->
     <a class="navbar-brand d-flex align-items-center" href="https://wospina5.github.io">
       <img src="https://wospina5.github.io/logo.png" alt="Logo" class="logo rounded-circle me-2">
       <span class="fw-bold">Web de Wilfredo</span>
@@ -159,20 +155,19 @@ body[data-bs-theme="dark"] .navbar-toggler-icon {
       </div>
     </div>
   </nav>
-  <!-- Contenido -->
-<div class="container content-box">
+  <div class="container content-box">
 <div align="center">
-  <h1 class="display-5 fw-bold mb-4">Air Pollution, Meteorological Conditions and Respiratory Infections in Baix Llobregat. A 14-Year Spatiotemporal Analysis</h1>
+  <h1 class="display-5 fw-bold mb-4">Air Pollution, Meteorological Conditions and Respiratory Infections in L'Eixample. A 14-Year Spatiotemporal Analysis</h1>
    </p>  
    </div>
 
   <p>The objectives of this research are:</p>
   <ul>
-    <li> Ilyas Zeddi, Ibrahim Besinti & Achraf Ziani are studying all data from El Prat (Sagnier) a city located in Baix Llobregat county. In this county we are using data from <a href="https://mediambient.gencat.cat/es/05_ambits_dactuacio/atmosfera/qualitat_de_laire/avaluacio/xarxa_de_vigilancia_i_previsio_de_la_contaminacio_atmosferica_xvpca/">Air Pollution Prevention and Monitoring Network (XPVCA in catalan)</a> corresponding to hourly data of air pollutants from year 2011 to 2025. Data included: Benzene (C<sub>6</sub>H<sub>6</sub>), Nitrogen Oxide (NO), Nitrogen Dioxide (NO<sub>2</sub>), Nitrogen Oxides (NO<sub>X</sub>) Ozone (O<sub>3</sub>), Sulphur Dioxide (SO<sub>2</sub>) and Carbon Monoxide (CO) </li>
+    <li> Ilyas Zeddi, Ibrahim Besinti & Achraf Ziani are studying all data from L'Eixample, a district located in Barcelona. In this district we are using data from <a href="https://mediambient.gencat.cat/es/05_ambits_dactuacio/atmosfera/qualitat_de_laire/avaluacio/xarxa_de_vigilancia_i_previsio_de_la_contaminacio_atmosferica_xvpca/">Air Pollution Prevention and Monitoring Network (XPVCA in catalan)</a> corresponding to hourly data of air pollutants from year 2011 to 2025. Data included: Benzene (C<sub>6</sub>H<sub>6</sub>), Nitrogen Oxide (NO), Nitrogen Dioxide (NO<sub>2</sub>), Nitrogen Oxides (NO<sub>X</sub>) Ozone (O<sub>3</sub>), Sulphur Dioxide (SO<sub>2</sub>) and Carbon Monoxide (CO) </li>
     <p></p>
-    <li> Meteorological data is available from <a href="https://www.meteo.cat/observacions/xema"> MeteoCat (Meteorological data Server of Catalonia)</a>, so we choose the same meteorological station in El Prat (Sagnier). The data structure is based on semi-hourly data that is, data every 30 minutes from 2011. Data included: temperature, relative humidity, pressure, wind direction, wind speed, solar irradiance.</li></ul>
+    <li> Meteorological data is available from <a href="https://www.meteo.cat/observacions/xema"> MeteoCat (Meteorological data Server of Catalonia)</a>, so we choose the meteorological station in L'Eixample. The data structure is based on semi-hourly data that is, data every 30 minutes from 2011. Data included: temperature, relative humidity, pressure, wind direction, wind speed, solar irradiance.</li></ul>
     <p></p>
-    <ul><li> Respiratory Infection data are collected from Catalonia Information System for Infection Surveillance <a href="https://sivic.salut.gencat.cat">(SIVIC)</a> using data from region 75, that is Barcelona Metropolitan South Region, and 182 is the identificator of the Primary care center from El Prat (Sagnier).
+    <ul><li> Respiratory Infection data are collected from Catalonia Information System for Infection Surveillance <a href="https://sivic.salut.gencat.cat">(SIVIC)</a> using data from Barcelona, and the corresponding identifiers for the Primary care centers from L'Eixample.
       <p></p>
 <div align="center" data-aos="fade-up">
 <h1>Calendar Plot</h1>
@@ -185,7 +180,7 @@ body[data-bs-theme="dark"] .navbar-toggler-icon {
 <li>Orange/Red Tones: these represent higher pollution. The darker the red, the more pollutants were in the air. On these days, people with breathing difficulties might feel more tired or uncomfortable.</li></ul>
      <p></p>   
    <h2>The Winter Trap</h2> 
-   <ul><li>Took at January and February. You will see many dark orange and red squares. In winter, the ground is cold, and a layer of heavy air sits on top of the city.</li>
+   <ul><li>Look at January and February. You will see many dark orange and red squares. In winter, the ground is cold, and a layer of heavy air sits on top of the city.</li>
    <p></p>
     <h2>The Summer Break</h2> 
    <li>Look at August. Most of the squares are light yellow. This is because many people leave the city for vacation, so there are fewer cars. Also, the summer heat creates currents that push pollution high up into the sky and away from us.</li>
@@ -204,7 +199,7 @@ body[data-bs-theme="dark"] .navbar-toggler-icon {
 <p>There are two times during the day when harmful gases (like NO<sub>X</sub>, which comes from vehicle exhausts) reach their highest levels</p>
   <ul><li>8:00 AM: When people drive to work or drop children off at school.</li>
   <li>8:00 PM: When people return home.</li>
-  <p>hese blue peaks on the chart represent the "fingerprint" left by our morning and evening commutes.</p>
+  <p>These blue peaks on the chart represent the "fingerprint" left by our morning and evening commutes.</p>
   <p></p>
   <h2>Monthly Pattern</h2>
 
@@ -233,13 +228,13 @@ Vertical Axis: This shows the hours of the day (0 to 24).</li>
 
 <li>Horizontal Axis: This shows the months (January to December).</li>
 
-<li>Colors: Dark red and orange mean "High Pollution." Blue and green mean "Clean Ai.
+<li>Colors: Dark red and orange mean "High Pollution." Blue and green mean "Clean Air."
 </li>
 <p></p>
 <h2>The Improvement</h2>
 <li>A Cleaner Decade: Look at the top rows (2011–2014). You will see large blocks of dark orange and red, especially during the morning and evening hours. This was a period of high pollution.
 </li>
-<li>The Shift to Blue: Look at the bottom rows (2023–2025). The red areas are much smaller and lighter. There is a lot more blue and green across the whole year. This visual change proves that new technology, electric vehicles, and environmental rules in El Prat are working.</li>
+<li>The Shift to Blue: Look at the bottom rows (2023–2025). The red areas are much smaller and lighter. There is a lot more blue and green across the whole year. This visual change proves that new technology, electric vehicles, and environmental rules in L'Eixample are working.</li>
 <p></p>
 <h2>The Constant Problem</h2>
 <li>Even in the most recent years, you can still see yellow and orange stripes at the top and bottom of the daily cycle (8:00 AM and 8:00 PM). This reminds us that while the air is better, the "rush hour" traffic is still the biggest challenge we face.</li> 
@@ -261,15 +256,15 @@ Vertical Axis: This shows the hours of the day (0 to 24).</li>
 <ul><li>
 The purple line (NO<sub>x</sub> - Nitrogen Oxides): Is the line with the most movement and the one that reaches the highest peaks. These gases come mainly from car exhausts and industrial activity.
 <li> The brown line (O<sub>3</sub> - Ozone): It rises in summer and falls in winter. Unlike others, ozone does not come directly from an exhaust, it is formed when other pollutants are exposed to the sun. That's why it always rises when it's hotter. </li>
-<li>The lower lines (SO<sub>2</sub>, CO, C<sub>6</sub>H<sub>6</sub>): substances like carbon monoxide or benzene are very close to zero. This are good news, as it indicates that certain types of industrial and old fuel pollution are under control.</li>
+<li>The lower lines (SO<sub>2</sub>, CO, C<sub>6</sub>H<sub>6</sub>): substances like carbon monoxide or benzene are very close to zero. This is good news, as it indicates that certain types of industrial and old fuel pollution are under control.</li>
 <p></p>
 
 <h1>Overcomings</h1>
-<li>El Prat (Sagnier): Has never exceeded 200 micrograms per cubic meter.</li>
+<li>L'Eixample: Has never exceeded 200 micrograms per cubic meter.</li>
 
 <li>According to European regulations, this level can only be exceeded 18 times.</li>
 
-<li>At El Prat (Sagnier), the level has been between 125 and 200 micrograms per cubic meter only 6 times.</li>
+<li>At L'Eixample, the level has been between 125 and 200 micrograms per cubic meter only 6 times.</li>
 
 <li>Does it comply with the law?
 
@@ -306,14 +301,14 @@ In 2012, it exceeded the limit 5 times.</li>
 <li>The most problematic pollutant during the period 2011–2025 has been CO, with 0 years exceeding the annual limit.</li>
 
 <li>The most critical year of the period was 2011, with 0 pollutants exceeding the annual limit.</li>
-<li>The analysis of air pollution in El Prat (Sagnier) during the period 2011–2025 
+<li>The analysis of air pollution in L'Eixample during the period 2011–2025 
   shows that air quality has presented recurring breaches of European legal limits, especially for pollutants associated with traffic and industrial activities.</li> <p></p>
 </ul></div>
     <div align="center" data-aos="fade-up">
   <h1>Sivic</h1>
    </p>  
   <img class="img-fluid rounded shadow-sm my-3" src="sivic.png">
-  <p>This graphic from SIVIC shows how health issues in El Prat change over time. We can look at specific diseases, age groups, sex...
+  <p>This graphic from SIVIC shows how health issues in L'Eixample change over time. We can look at specific diseases, age groups, sex...
 </p>
   <p></p>
   <h2>Covid-19</h2>
@@ -328,23 +323,23 @@ The impact of these diseases is not the same for everyone. Respiratory illnesses
 <p></p>
 <h2>No Significant Difference Between Men and Women </h2>
 <li> When analyzing the data by sex, the results are very similar for both men and women.</li>
-<li>The lower lines (SO<sub>2</sub>, CO, C<sub>6</sub>H<sub>6</sub>): substances like carbon monoxide or benzene are very close to zero. This are good news, as it indicates that certain types of industrial and old fuel pollution are under control.</li>
+<li>The lower lines (SO<sub>2</sub>, CO, C<sub>6</sub>H<sub>6</sub>): substances like carbon monoxide or benzene are very close to zero. This is good news, as it indicates that certain types of industrial and old fuel pollution are under control.</li>
 <p></p>
 
   <div align="center" data-aos="fade-up">
-  <h1>What is the Origin of Air Pollution in El Prat (Sagnier)</h1>
+  <h1>What is the Origin of Air Pollution in L'Eixample</h1>
      <img class="img-fluid rounded shadow-sm my-3" src="pollutionrose(no2).png">
-  <p><li>To know the origin of air pollution in El Prat (Sagnier) is easy with RStudio</li></p>
+  <p><li>To know the origin of air pollution in L'Eixample is easy with RStudio</li></p>
   <p></p>
   <p><li>We only need data in columns named WS for wind speed, WD for wind direction and to choose a pollutant e.g.: NO<sub>2</sub>. These are conditions of the openair library
   in order to create a pollution rose with the instruction: <code>pollutionRose(cityall, pollutant="no2")</code></li></p>
   <p></p>
   <p><li>This is a Pollution Rose. It works like a compass, showing exactly which 
-    direction the wind blows from when the air in El Prat contains high levels of Nitrogen Dioxide (NO<sub>2</sub>).</li></p>
+    direction the wind blows from when the air in L'Eixample contains high levels of Nitrogen Dioxide (NO<sub>2</sub>).</li></p>
     <p><li>The Petals: The length of each section shows how often the wind blows from that direction.The Colors: Orange and dark red represent high pollution levels. 
     Green and yellow represent clean air.</li></p>
     <p><li>The Colors: Orange and dark red represent high pollution levels. Green and yellow represent clean air.</li></p>
-    <p><li>As you can see in the following image air pollution of El Prat (Sagnier) comes form Southwest area.</li></p>
+    <p><li>As you can see in the following image air pollution of L'Eixample comes from the surrounding areas of high traffic.</li></p>
 <p></p>
     <img class="img-fluid rounded shadow-sm my-3" src="googlemaps.png">
    </div>  
@@ -368,10 +363,10 @@ The impact of these diseases is not the same for everyone. Respiratory illnesses
   <p></p>
        <img class="img-fluid rounded shadow-sm my-3" src="polarMap.png">
   <p></p>
-  <p><li>This map takes the polar plot and overlays it directly onto the real map of El Prat de Llobregat, centering it right on the Sagnier measuring station. 
+  <p><li>This map takes the polar plot and overlays it directly onto the real map of L'Eixample, centering it right on the measuring station. 
     It shows exactly which roads and infrastructures are causing the pollution.</li></p>
-  <p><li>This colored overlay sits directly over the C-31 / Autovia de Castelldefels and the Damm brewery.</li></p>
-  <p><li>It proves that when the wind blows from these directions, it carries the heavy emissions from highway traffic and industrial boilers straight to the monitoring station.</li></p>
+  <p><li>This colored overlay sits directly over main avenues like Gran Via and Carrer d'Aragó.</li></p>
+  <p><li>It proves that when the wind blows from these directions, it carries the heavy emissions from dense urban traffic straight to the monitoring station.</li></p>
 </div>
 <p></p>
 
@@ -396,8 +391,8 @@ Average Incidence = 1,98 cases / 1000 (3484 days)</p>
      <p>$$AR = 1,98 - 1,85 = 0,13$$</p>
    <p><li>Excess NO2 generates 0.13 extra cases of respiratory infections per 1,000 inhabitants.</li>
 <li>This equates to 13 extra cases of respiratory infections per 100,000 inhabitants.</li>
-<li>Context: El Prat de Llobregat has a population of 66,000.</li>
-<p>$$\frac{0,13 \text{ casos}}{1.000 \text{ hab.}} \cdot 66 = 9 \text{ cases in El Prat de Llobregat}$$</p>
+<li>Context: L'Eixample has a population of approximately 266,000.</li>
+<p>$$\frac{0,13 \text{ casos}}{1.000 \text{ hab.}} \cdot 266 = 35 \text{ cases in L'Eixample}$$</p>
      <p></p>
   
   <h2>3. AR% = Attributable Risk Percentage </h2>
@@ -440,10 +435,10 @@ exceeded. European law says that it can be exceeded 18 times every year.</p>
 inhabitants.</p>
 <p>P = Probability of 2 cases of respiratory infections per 1000 inhabitants based on a mathematical
 Poisson model that has taken into account the daily data of 15 years (2011-2025) of infections and
-air pollutants (NO<sub>2</sub> , O<sub>3</sub> , etc.) at the 3 primary care centers in El Prat de Llobregat. We know that
+air pollutants (NO<sub>2</sub> , O<sub>3</sub> , etc.) at the primary care centers in L'Eixample. We know that
 the data has been obtained from the XPVCA database (Air Pollution Prevention and Monitoring
 Network) and SIVIC (Information System for Surveillance in Catalonia).</p>
-     <p>Therefore, the probability of 2 respiratory infections per every 1,000 inhabitants of El Prat is 26.9%
+     <p>Therefore, the probability of 2 respiratory infections per every 1,000 inhabitants of L'Eixample is 26.9%
 if NO2 levels are low, meaning below the WHO limit of (25μg/m
 3
 ) on the other hand, if the NO<sub>2</sub>
@@ -497,7 +492,7 @@ The graph is read by analyzing three axes simultaneously:</p>
   <p></p>
   <div align="center" data-aos="fade-up">
   <h2>Conclusion</h2>
-<p>Overall, the graphics show that nitrogen dioxide (NO<sub>2</sub>) levels in El Prat (Sagnier) change depending on the time of day, month, and year, with higher concentrations usually appearing during peak activity hours, likely related to traffic and urban activity.
+<p>Overall, the graphics show that nitrogen dioxide (NO<sub>2</sub>) levels in L'Eixample change depending on the time of day, month, and year, with higher concentrations usually appearing during peak activity hours, likely related to traffic and urban activity.
 
 In 2025, most days present low or moderate pollution levels, meaning that air quality is generally acceptable, although some days show higher concentrations.
 
@@ -505,10 +500,9 @@ In addition, we analyzed health data from the SIVIC system and compared it with 
 
 That's why, the study indicates that air quality can have an impact on public health, highlighting the importance of monitoring pollution levels and reducing emissions to protect people’s health.
 To understand this impact, our Pollution Rose, Polar Plot, and Polar Map reveal that the highest 
-  NO<sub>2</sub> concentrations are coming from the West and Southwest, aligning directly with 
-  the C-31 / Autovia de Castelldefels and extending toward the Barcelona-El Prat Airport. 
-  Furthermore, a significant localized source is identified to the North/Northwest, right over the Damm brewery, where industrial boilers, 
-  cogeneration plants, and heavy distribution truck traffic feed directly into the urban wind path. According to weather data from Meteocat, while eastern sea breezes keep the city clean, winter inversions and calm, windless conditions trap all these highway, industrial, and urban emissions right at ground level, creating the high-pollution seen at the center of the 
+  NO<sub>2</sub> concentrations are coming from the main traffic arteries, aligning directly with 
+  major grid avenues such as Gran Via de les Corts Catalanes and Carrer d'Aragó. 
+  Furthermore, a significant localized source is identified in the constant flow of vehicles, where intense urban traffic feeds directly into the urban wind path. According to weather data from Meteocat, while eastern sea breezes keep the city clean, winter inversions and calm, windless conditions trap all these traffic emissions right at ground level, creating the high-pollution seen at the center of the 
   Polar Plot where wind speed is nearly zero.
   This trapped pollution is a direct trigger for the respiratory medical cases recorded by SIVIC, which show that from 2020 onwards, the majority of cases are linked to COVID-19 and winter flues; although these are viral infections, poor air quality inflames the lungs and weakens the body's natural defenses. This biological vulnerability is rigorously confirmed by our DLNM (Distributed Lag Non-linear Model) 3D surface, which proves that the health impact of high NO2 concentrations (above 60μg/m<sup>3</sup> ) is not just immediate, but cumulative, showing a significant delayed effect where the relative risk of respiratory admissions escalates and peaks between 5 and 14 days after exposure. Finally, the health data shows no noticeable difference between men and women because air is a shared resource, but it highlights a high vulnerability among specific age groups, showing that children and the elderly are the primary victims when these environmental, industrial, and delayed biological factors align. </p>
 <p></p>
@@ -551,9 +545,7 @@ btn.addEventListener("click", () => {
 <script>
   AOS.init({
     duration: 1000, // duración de la animación
-    once: true     
+    once: true      
   });
 </script>
-<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-</body>
-</html>
+<link href=
